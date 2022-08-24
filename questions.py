@@ -8,6 +8,19 @@ quiz layout. The basic framework of my game
 
 from dataclasses import dataclass
 import random
+from re import S
+from PySide6.QtWidgets import *
+from pytest import Item
+
+# Set app and main window
+app = QApplication()
+main_window = QMainWindow()
+main_window.setWindowTitle("Calender")
+
+global new_question_to_display
+new_question_to_display = None
+
+user_answer = ''
 
 """
 Difficulty Levels
@@ -26,7 +39,7 @@ class Questions:
     _difficulty: str
     _reward: int
 
-    def question(self) -> str:
+    def question(self):
         return self._question
 
     def answer(self) -> str:
@@ -49,11 +62,27 @@ question_list = [Questions("Que?", "Que a quires?", ["no", "si"], 1, 10),
 
 # Question-Display
 def question_selection(local_question_list):
-    new_question_to_display = local_question_list[random.randint(0, len(local_question_list))].question
+    global new_question_to_display
+    new_question_to_display = local_question_list[random.randint(0, len(local_question_list))-1]
     # new_answer = question_list
-    return new_question_to_display
 
+
+# Runs to select a random question
+question_selection(question_list)
 
 # Question + Answer Database
-print(question_selection(question_list))
+current_question = new_question_to_display._question
+current_answer = new_question_to_display._answer
+current_options = new_question_to_display._options
+
+
 # Function that prompts question
+def question_sequence(round, local_current_question, local_current_answer, local_current_options):
+    print(x for x in local_current_options, local_current_answer)
+    print("Select: ")
+    round += 1
+    answer = input(local_current_question)
+
+
+main_window.show()
+app.exec()

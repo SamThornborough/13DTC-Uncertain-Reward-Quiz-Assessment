@@ -9,6 +9,7 @@ quiz layout. The basic framework of my game
 from dataclasses import dataclass
 import random
 from re import S
+from typing import List
 from PySide6.QtWidgets import *
 from pytest import Item
 
@@ -21,6 +22,7 @@ global new_question_to_display
 new_question_to_display = None
 
 user_answer = ''
+round = 0
 
 """
 Difficulty Levels
@@ -55,6 +57,21 @@ class Questions:
         return self._reward
 
 
+@dataclass
+class Skill_Cards:
+    _card_name: str
+    _card_definition: str
+    _card_property: function
+
+    def card_name(self):
+        return self._card_name
+    def card_definition(self):
+
+        return self._card_definition
+
+    def card_property(self):
+        return self._card_property
+
 question_list = [Questions("Que?", "Que a quires?", ["no", "si"], 1, 10),
                 Questions("Quires un ingles hombre?", "Que a mierda?", ["pp", "pupu"], 2, 10),
                 Questions("Tu madre esta un vaca", "Mi madre estaba un santina!", ["dog", "wow"], 3, 10)]
@@ -78,11 +95,24 @@ current_options = new_question_to_display._options
 
 # Function that prompts question
 def question_sequence(round, local_current_question, local_current_answer, local_current_options):
-    print(x for x in local_current_options, local_current_answer)
+    for x in local_current_options, local_current_answer:
+        # print(local_current_options, local_current_answer)
+        print(x)
+    # print(x for x in local_current_options, local_current_answer)
     print("Select: ")
     round += 1
-    answer = input(local_current_question)
+    global user_answer
+    user_answer = input(local_current_question)
 
+def question_check(round, local_current_question, local_current_answer, user_answer):
+    if user_answer == local_current_answer:
+        print(True)
+    else:
+        print(False)
+
+question_sequence(round, current_question, current_answer, current_options)
+print(user_answer)
+question_check(round, current_question, current_answer, user_answer)
 
 main_window.show()
 app.exec()

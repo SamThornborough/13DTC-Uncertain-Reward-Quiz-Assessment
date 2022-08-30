@@ -24,6 +24,15 @@ new_question_to_display = None
 user_answer = ''
 round = 0
 
+score = 0
+
+round_ended = False
+
+# I hope that these variables will increase as the difficulty (?) increases
+# as well.
+score_minimum = 0
+score_maximum = 10
+
 """
 Difficulty Levels
 1,2,3
@@ -61,10 +70,11 @@ class Questions:
 class Skill_Cards:
     _card_name: str
     _card_definition: str
-    _card_property: function
+    _card_property_id: int
 
     def card_name(self):
         return self._card_name
+
     def card_definition(self):
 
         return self._card_definition
@@ -72,9 +82,10 @@ class Skill_Cards:
     def card_property(self):
         return self._card_property
 
+
 question_list = [Questions("Que?", "Que a quires?", ["no", "si"], 1, 10),
-                Questions("Quires un ingles hombre?", "Que a mierda?", ["pp", "pupu"], 2, 10),
-                Questions("Tu madre esta un vaca", "Mi madre estaba un santina!", ["dog", "wow"], 3, 10)]
+                 Questions("Quires un ingles hombre?", "Que a mierda?", ["pp", "pupu"], 2, 10),
+                 Questions("Tu madre esta un vaca", "Mi madre estaba un santina!", ["dog", "wow"], 3, 10)]
 
 
 # Question-Display
@@ -104,15 +115,32 @@ def question_sequence(round, local_current_question, local_current_answer, local
     global user_answer
     user_answer = input(local_current_question)
 
+
+def answer_is_correct(local_score_minimum, local_score_maximum):
+    global score
+    score += random.randint(local_score_minimum, local_score_maximum)
+    print(f"Your new score is {score}.")
+
+
+def answer_is_incorrect(score, round):
+    print(f"You have lost the cat game with {score} points.")
+    print(f"You have lost at round {round}.")
+    global round_ended
+    round_ended = True
+
 def question_check(round, local_current_question, local_current_answer, user_answer):
     if user_answer == local_current_answer:
-        print(True)
+        answer_is_correct(score_minimum, score_maximum)
     else:
-        print(False)
+        answer_is_incorrect(score, round)
 
-question_sequence(round, current_question, current_answer, current_options)
-print(user_answer)
-question_check(round, current_question, current_answer, user_answer)
+# main game sequence.
+
+
+while round_ended is not True:
+    question_sequence(round, current_question, current_answer, current_options)
+    print(user_answer)
+    question_check(round, current_question, current_answer, user_answer)
 
 main_window.show()
 app.exec()

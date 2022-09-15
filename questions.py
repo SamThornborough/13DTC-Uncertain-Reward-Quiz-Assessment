@@ -67,7 +67,7 @@ class Questions:
 
 
 @dataclass
-class Skill_Cards:
+class Skill_Card:
     _card_name: str
     _card_definition: str
     _card_property_id: int
@@ -87,6 +87,7 @@ question_list = [Questions("Que?", "Que a quires?", ["no", "si"], 1, 10),
                  Questions("Quires un ingles hombre?", "Que a mierda?", ["pp", "pupu"], 2, 10),
                  Questions("Tu madre esta un vaca", "Mi madre estaba un santina!", ["dog", "wow"], 3, 10)]
 
+skill_cards_list = [Skill_Card()]
 
 # Question-Display
 def question_selection(local_question_list):
@@ -117,10 +118,10 @@ def question_sequence(round, local_current_question, local_current_answer, local
 
 
 def answer_is_correct(local_score_minimum, local_score_maximum):
+    # When a correct answer is found, grants the user a random number of points.
     global score
     score += random.randint(local_score_minimum, local_score_maximum)
     print(f"Your new score is {score}.")
-
 
 def answer_is_incorrect(score, round):
     print(f"You have lost the cat game with {score} points.")
@@ -134,10 +135,28 @@ def question_check(round, local_current_question, local_current_answer, user_ans
     else:
         answer_is_incorrect(score, round)
 
-# main game sequence.
+
+def random_reward(local_user_score, all_cards_list, user_cards_hand):
+    # The user may choose to spend these points
+    # (when they can afford it), to be given a random card.
+    # The higher the score, the higher the likelihood of a rarer,
+    # and therefore, better card.
+    while True:
+        random_subtraction_number = random.randint(0, 10)
+        random_addition_number = random.randint(0, 10)
+        minimum_score = local_user_score - random_subtraction_number
+        maximum_score = local_user_score + random_addition_number
+
+        final_score = random.randint(minimum_score, maximum_score)
+        try:
+            new_card = all_cards_list[final_score]
+            break
+        except:
+            pass
 
 
 while round_ended is not True:
+    # main game sequence.
     question_sequence(round, current_question, current_answer, current_options)
     print(user_answer)
     question_check(round, current_question, current_answer, user_answer)

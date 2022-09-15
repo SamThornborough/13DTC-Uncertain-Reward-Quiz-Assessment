@@ -23,6 +23,7 @@ new_question_to_display = None
 
 user_answer = ''
 round = 0
+user_card_hand = []
 
 score = 0
 
@@ -87,7 +88,8 @@ question_list = [Questions("Que?", "Que a quires?", ["no", "si"], 1, 10),
                  Questions("Quires un ingles hombre?", "Que a mierda?", ["pp", "pupu"], 2, 10),
                  Questions("Tu madre esta un vaca", "Mi madre estaba un santina!", ["dog", "wow"], 3, 10)]
 
-skill_cards_list = [Skill_Card()]
+skill_card_list = [Skill_Card("Hermit Purple!", "Stops time!", 1),
+                    Skill_Card("Star PLatinum!", "OHMAGAAHHHD", 2)]
 
 # Question-Display
 def question_selection(local_question_list):
@@ -123,20 +125,24 @@ def answer_is_correct(local_score_minimum, local_score_maximum):
     score += random.randint(local_score_minimum, local_score_maximum)
     print(f"Your new score is {score}.")
 
+
 def answer_is_incorrect(score, round):
     print(f"You have lost the cat game with {score} points.")
     print(f"You have lost at round {round}.")
     global round_ended
     round_ended = True
 
+
 def question_check(round, local_current_question, local_current_answer, user_answer):
     if user_answer == local_current_answer:
         answer_is_correct(score_minimum, score_maximum)
+    elif user_answer == "Tea_breaktime":
+        user_card_hand= random_reward(score, skill_card_list)
     else:
         answer_is_incorrect(score, round)
 
 
-def random_reward(local_user_score, all_cards_list, user_cards_hand):
+def random_reward(local_user_score, all_cards_list):
     # The user may choose to spend these points
     # (when they can afford it), to be given a random card.
     # The higher the score, the higher the likelihood of a rarer,
@@ -153,6 +159,7 @@ def random_reward(local_user_score, all_cards_list, user_cards_hand):
             break
         except:
             pass
+    return new_card
 
 
 while round_ended is not True:

@@ -16,7 +16,16 @@ from pytest import Item
 # Set app and main window
 app = QApplication()
 main_window = QMainWindow()
-main_window.setWindowTitle("Calender")
+main_window.setWindowTitle("Questions")
+
+main_widget = QWidget()
+main_window.setCentralWidget(main_widget)
+hbox = QHBoxLayout()
+main_widget.setLayout(hbox)
+
+right_widget = QWidget()
+right_widget_vbox_layout = QVBoxLayout()
+right_widget.setLayout(right_widget_vbox_layout)
 
 global new_question_to_display
 new_question_to_display = None
@@ -88,8 +97,10 @@ question_list = [Questions("Que?", "Que a quires?", ["no", "si"], 1, 10),
                  Questions("Quires un ingles hombre?", "Que a mierda?", ["pp", "pupu"], 2, 10),
                  Questions("Tu madre esta un vaca", "Mi madre estaba un santina!", ["dog", "wow"], 3, 10)]
 
-skill_card_list = [Skill_Card("Hermit Purple!", "Stops time!", 1),
+skill_cards_available_list = [Skill_Card("Hermit Purple!", "Stops time!", 1),
                     Skill_Card("Star PLatinum!", "OHMAGAAHHHD", 2)]
+
+user_skill_card_list = []
 
 # Question-Display
 def question_selection(local_question_list):
@@ -124,6 +135,7 @@ def answer_is_correct(local_score_minimum, local_score_maximum):
     global score
     score += random.randint(local_score_minimum, local_score_maximum)
     print(f"Your new score is {score}.")
+    question_selection(question_list)
 
 
 def answer_is_incorrect(score, round):
@@ -133,13 +145,20 @@ def answer_is_incorrect(score, round):
     round_ended = True
 
 
-def question_check(round, local_current_question, local_current_answer, user_answer):
+def question_check(round, local_current_question, local_current_answer, user_answer,):
     if user_answer == local_current_answer:
         answer_is_correct(score_minimum, score_maximum)
     elif user_answer == "Tea_breaktime":
-        user_card_hand= random_reward(score, skill_card_list)
+        user_card_hand = random_reward(score, user_skill_card_list)
+    elif user_answer == "skill_activate":
+        skill_list_activated(user_skill_card_list, skill_cards_available_list)
     else:
         answer_is_incorrect(score, round)
+
+
+def skill_list_activated(local_user_skill_card_list,
+                         local_skill_cards_available_list):
+    print(True)
 
 
 def random_reward(local_user_score, all_cards_list):
@@ -170,3 +189,14 @@ while round_ended is not True:
 
 main_window.show()
 app.exec()
+
+
+"""
+I discovered there is a bug that forms, where the question
+doesn’t re-roll for another random selection,
+it simply re-uses the previous one. I think
+I know the problem, check the correct answer question.
+Despite this, it is able to check for correct or
+incorrect answers, and stops the game when incorrect,
+and scores points when done.
+"""

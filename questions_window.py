@@ -16,17 +16,38 @@ from pytest import Item
 # Set app and main window
 app = QApplication()
 main_window = QMainWindow()
-main_window.setWindowTitle("Questions") # Not Perma
+main_window.setWindowTitle("Questions")  # Not Perma
+
+# Main Widgets
+
+# main_widget = QWidget()
+# main_window.setCentralWidget(main_widget)
+# hbox = QHBoxLayout()
+# #vbox = QVBoxLayout()
+# main_widget.setLayout(hbox)
+# main_widget.setStyleSheet("background-color: red;")  # Not Perma
+
 
 # Main Widgets
 
 main_widget = QWidget()
 main_window.setCentralWidget(main_widget)
-hbox = QHBoxLayout()
-#vbox = QVBoxLayout()
-main_widget.setLayout(hbox)
-main_widget.setStyleSheet("background-color: red;") # Not Perma
+vbox = QVBoxLayout()
+main_widget.setLayout(vbox)
 
+# Top Widget
+
+question_label = QLabel("Question 1")
+vbox.addWidget(question_label)
+question_label.setStyleSheet("background-color: pink;")  # Not Perma
+
+# Inner Main Widget
+
+inner_main_widget = QWidget()
+vbox.addWidget(inner_main_widget)
+hbox = QHBoxLayout()
+inner_main_widget.setLayout(hbox)
+main_widget.setStyleSheet("background-color: red;")  # Not Perma
 
 # Left Widget
 

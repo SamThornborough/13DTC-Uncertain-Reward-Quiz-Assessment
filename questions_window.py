@@ -5,6 +5,16 @@
 # Last Edited: 26/10/22
 # A document aimed at creating creating a functioning gui for my game.
 
+"""NEXT STEPS:
+
+FIRST:
+I need to work on connecting the Pushbuttons to items.
+
+
+NEXT:
+I need to then start combining the Gui to their
+respective variables and methods."""
+
 from dataclasses import dataclass
 import random
 from re import S
@@ -27,6 +37,14 @@ main_window.setWindowTitle("Questions")  # Not Perma
 # main_widget.setLayout(hbox)
 # main_widget.setStyleSheet("background-color: red;")  # Not Perma
 
+"""So basically what I have for the Widgets, is a Main Widget,
+which has a vbox layout set to it. the Hbox and
+Vbox layouts are the actual places
+you addwidgets to. Within that Vbox layout,
+I added a inner main widget.
+This widget in turn had its own layout,
+the hbox layout, which was how
+I did the question top, 3 boxs below thing."""
 
 # Main Widgets
 

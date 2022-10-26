@@ -75,19 +75,20 @@ left_widget.setStyleSheet("background-color: orange;")  # Not Perma
 left_widget_vbox = QVBoxLayout()
 left_widget.setLayout(left_widget_vbox)
 
-player_options_widget = QListWidget()
-player_options_widget.addItem("1")
+player_options_list_widget = QListWidget()
+for i in range(3):
+    player_options_list_widget.addItem(f"Option {i}")
 player_score_widget = QLabel("Score")
-left_widget_vbox.addWidget(player_options_widget)
+left_widget_vbox.addWidget(player_options_list_widget)
 left_widget_vbox.addWidget(player_score_widget)
 
 # Middle Widget
 
-current_held_skill_cards = QListWidget()
-for i in range(2):  # NOT PERMA, placeholder code
-    current_held_skill_cards.addItem(f"Card {i}")
-hbox.addWidget(current_held_skill_cards)
-current_held_skill_cards.setStyleSheet("background-color: cyan")
+current_held_skill_cards_list = QListWidget()
+for i in range(3):  # NOT PERMA, placeholder code
+    current_held_skill_cards_list.addItem(f"Card {i}")
+hbox.addWidget(current_held_skill_cards_list)
+current_held_skill_cards_list.setStyleSheet("background-color: cyan")
 
 # current_held_skill_cards = QListWidget()
 # current_held_skill_cards.addItem("Card 1")
@@ -131,6 +132,32 @@ player_go_button.setStyleSheet("background-color: green;")  # Not Perma
 player_random_skill_card = QPushButton("SPIN FOR SKILL CARDS")
 right_widget_vbox_layout.addWidget(player_random_skill_card)
 player_random_skill_card.setStyleSheet("background-color: white")  # Not Perma
+
+# Signal Methods
+
+
+def player_go_button_clicked():
+    print("TRUE")
+
+
+def player_random_skill_card_clicked():
+    print("ALSO TRUE")
+
+
+def current_held_skill_cards_list_currentRowChanged(index: int):
+    print(index)
+
+
+def player_options_list_widget_currentRowChanged(index: int):
+    print(index)
+
+
+player_go_button.clicked.connect(player_go_button_clicked)
+
+player_random_skill_card.clicked.connect(player_random_skill_card_clicked)
+
+current_held_skill_cards_list.currentRowChanged.connect(current_held_skill_cards_list_currentRowChanged)
+player_options_list_widget.currentRowChanged.connect(player_options_list_widget_currentRowChanged)
 
 main_window.show()
 app.exec()

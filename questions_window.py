@@ -23,8 +23,10 @@ main_window.setWindowTitle("Questions") # Not Perma
 main_widget = QWidget()
 main_window.setCentralWidget(main_widget)
 hbox = QHBoxLayout()
+#vbox = QVBoxLayout()
 main_widget.setLayout(hbox)
 main_widget.setStyleSheet("background-color: red;") # Not Perma
+
 
 # Left Widget
 
@@ -46,6 +48,13 @@ hbox.addWidget(right_widget)
 text_test = QLabel("Test the right widget")
 right_widget_vbox_layout.addWidget(text_test)
 text_test.setStyleSheet("background-color: green;") # Not Perma
+
+#          Bottom Widget For Right
+
+right_bottom_widget = QWidget()
+right_widget_vbox_layout.addWidget(right_bottom_widget)
+right_bottom_widget.setStyleSheet("background-color: white")
+
 
 main_window.show()
 app.exec()

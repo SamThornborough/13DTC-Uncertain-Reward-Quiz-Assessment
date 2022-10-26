@@ -156,8 +156,10 @@ player_go_button.clicked.connect(player_go_button_clicked)
 
 player_random_skill_card.clicked.connect(player_random_skill_card_clicked)
 
-current_held_skill_cards_list.currentRowChanged.connect(current_held_skill_cards_list_currentRowChanged)
-player_options_list_widget.currentRowChanged.connect(player_options_list_widget_currentRowChanged)
+current_held_skill_cards_list.currentRowChanged.connect(
+    current_held_skill_cards_list_currentRowChanged)
+player_options_list_widget.currentRowChanged.connect(
+    player_options_list_widget_currentRowChanged)
 
 main_window.show()
 app.exec()

@@ -100,7 +100,8 @@ question_list = [Questions("Que?", "Que a quires?", ["no", "si"], 1, 10),
 skill_cards_available_list = [Skill_Card("Hermit Purple!", "Stops time!", 1),
                     Skill_Card("Star PLatinum!", "OHMAGAAHHHD", 2)]
 
-user_skill_card_list = []
+user_skill_card_list = ["Hermit Purple!", "Star Platinum!", "Pomu"]
+
 
 # Question-Display
 def question_selection(local_question_list):
@@ -122,12 +123,13 @@ current_options = new_question_to_display._options
 def question_sequence(round, local_current_question, local_current_answer, local_current_options):
     for x in local_current_options, local_current_answer:
         # print(local_current_options, local_current_answer)
-        print(x)
+        question = x
     # print(x for x in local_current_options, local_current_answer)
     print("Select: ")
     round += 1
-    global user_answer
-    user_answer = input(local_current_question)
+    # global user_answer
+    # user_answer = input(local_current_question)
+    return question
 
 
 def answer_is_correct(local_score_minimum, local_score_maximum):

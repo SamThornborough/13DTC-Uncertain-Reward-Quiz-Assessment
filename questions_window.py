@@ -55,9 +55,11 @@ main_window.setCentralWidget(main_widget)
 vbox = QVBoxLayout()
 main_widget.setLayout(vbox)
 
-# Top Widget - Question Widget
+# Top Widget - Question Widget ###############THIS FIRST
 
-question_label = QLabel("Question 1")
+
+question_label = QLabel(question_sequence(
+    round, current_question, current_answer, current_options))
 vbox.addWidget(question_label)
 question_label.setStyleSheet("background-color: pink;")  # Not Perma
 
@@ -84,11 +86,13 @@ player_score_widget = QLabel("Score")
 left_widget_vbox.addWidget(player_options_list_widget)
 left_widget_vbox.addWidget(player_score_widget)
 
-# Middle Widget - Current Held Cards Display
+# Middle Widget - Current Held Cards Display ###### NEXT TARGET
 
 current_held_skill_cards_list = QListWidget()
-for i in range(3):  # NOT PERMA, placeholder code
-    current_held_skill_cards_list.addItem(f"Card {i}")
+# for current_index in range (len(user_skill_card_list)):      # NOT PERMA, placeholder code
+for current_skill_card in user_skill_card_list:
+    print(current_skill_card)
+    current_held_skill_cards_list.addItem(current_skill_card)
 hbox.addWidget(current_held_skill_cards_list)
 current_held_skill_cards_list.setStyleSheet("background-color: cyan")
 

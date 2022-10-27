@@ -13,19 +13,19 @@ from typing import List
 from PySide6.QtWidgets import *
 from pytest import Item
 
-# Set app and main window
-app = QApplication()
-main_window = QMainWindow()
-main_window.setWindowTitle("Questions")
+# # Set app and main window
+# app = QApplication()
+# main_window = QMainWindow()
+# main_window.setWindowTitle("Questions")
 
-main_widget = QWidget()
-main_window.setCentralWidget(main_widget)
-hbox = QHBoxLayout()
-main_widget.setLayout(hbox)
+# main_widget = QWidget()
+# main_window.setCentralWidget(main_widget)
+# hbox = QHBoxLayout()
+# main_widget.setLayout(hbox)
 
-right_widget = QWidget()
-right_widget_vbox_layout = QVBoxLayout()
-right_widget.setLayout(right_widget_vbox_layout)
+# right_widget = QWidget()
+# right_widget_vbox_layout = QVBoxLayout()
+# right_widget.setLayout(right_widget_vbox_layout)
 
 global new_question_to_display
 new_question_to_display = None
@@ -89,8 +89,8 @@ class Skill_Card:
 
         return self._card_definition
 
-    def card_property(self):
-        return self._card_property
+    def card_property_id(self):
+        return self._card_property_id
 
 
 question_list = [Questions("Que?", "Que a quires?", ["no", "si"], 1, 10),
@@ -180,15 +180,12 @@ def random_reward(local_user_score, all_cards_list):
             pass
     return new_card
 
-
-while round_ended is not True:
-    # main game sequence.
-    question_sequence(round, current_question, current_answer, current_options)
-    print(user_answer)
-    question_check(round, current_question, current_answer, user_answer)
-
-main_window.show()
-app.exec()
+def main_sequence():
+    while round_ended is not True:
+        # main game sequence.
+        question_sequence(round, current_question, current_answer, current_options)
+        print(user_answer)
+        question_check(round, current_question, current_answer, user_answer)
 
 
 """

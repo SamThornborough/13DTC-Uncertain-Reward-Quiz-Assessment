@@ -15,6 +15,8 @@ NEXT:
 I need to then start combining the Gui to their
 respective variables and methods."""
 
+from questions import *
+
 from dataclasses import dataclass
 import random
 from re import S
@@ -53,7 +55,7 @@ main_window.setCentralWidget(main_widget)
 vbox = QVBoxLayout()
 main_widget.setLayout(vbox)
 
-# Top Widget
+# Top Widget - Question Widget
 
 question_label = QLabel("Question 1")
 vbox.addWidget(question_label)
@@ -67,7 +69,7 @@ hbox = QHBoxLayout()
 inner_main_widget.setLayout(hbox)
 main_widget.setStyleSheet("background-color: red;")  # Not Perma
 
-# Left Widget
+# Left Widget - Options and Score Widgets
 
 left_widget = QWidget()
 hbox.addWidget(left_widget)
@@ -82,7 +84,7 @@ player_score_widget = QLabel("Score")
 left_widget_vbox.addWidget(player_options_list_widget)
 left_widget_vbox.addWidget(player_score_widget)
 
-# Middle Widget
+# Middle Widget - Current Held Cards Display
 
 current_held_skill_cards_list = QListWidget()
 for i in range(3):  # NOT PERMA, placeholder code
@@ -121,13 +123,13 @@ right_widget_vbox_layout = QVBoxLayout()
 right_widget.setLayout(right_widget_vbox_layout)
 right_widget.setStyleSheet("background-color: purple;")  # Not Perma
 
-#          Right Widget top
+#          Right Widget top - Go Button
 
 player_go_button = QPushButton("GO")
 right_widget_vbox_layout.addWidget(player_go_button)
 player_go_button.setStyleSheet("background-color: green;")  # Not Perma
 
-#          Right Widget bottom
+#          Right Widget bottom - Rangamble Button
 
 player_random_skill_card = QPushButton("SPIN FOR SKILL CARDS")
 right_widget_vbox_layout.addWidget(player_random_skill_card)
@@ -163,3 +165,5 @@ player_options_list_widget.currentRowChanged.connect(
 
 main_window.show()
 app.exec()
+
+main_sequence()

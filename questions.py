@@ -147,13 +147,15 @@ def answer_is_incorrect(score, round):
     round_ended = True
 
 
-def question_check(round, local_current_question, local_current_answer, user_answer,):
+def question_check(round, local_current_question,
+                   local_current_answer, user_answer,):
     if user_answer == local_current_answer:
         answer_is_correct(score_minimum, score_maximum)
-    elif user_answer == "Tea_breaktime":
-        user_card_hand = random_reward(score, user_skill_card_list)
-    elif user_answer == "skill_activate":
-        skill_list_activated(user_skill_card_list, skill_cards_available_list)
+    # elif user_answer == "Tea_breaktime":
+    #     user_card_hand = random_reward(score, user_skill_card_list)
+    # elif user_answer == "skill_activate":
+    #     skill_list_activated(user_skill_card_list,
+    #                          skill_cards_available_list)
     else:
         answer_is_incorrect(score, round)
 

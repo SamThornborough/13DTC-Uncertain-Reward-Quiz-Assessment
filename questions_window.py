@@ -13,7 +13,15 @@ I need to work on connecting the Pushbuttons to items.
 
 NEXT:
 I need to then start combining the Gui to their
-respective variables and methods."""
+respective variables and methods.
+
+AFTER THIS:
+I had an idea that could help my code.
+The game rounds increase every time GO is pressed,
+AND when an option is selected.
+The first options at the start of the game include the
+guide text, and the play option. After this, when GO and an Option has been pressed,
+the question will change and the round_number variable will increase by 1."""
 
 from questions import *
 
@@ -143,7 +151,13 @@ player_random_skill_card.setStyleSheet("background-color: white")  # Not Perma
 
 
 def player_go_button_clicked():
-    print("TRUE")
+    """When the go button is pressed, and if an option was selected,
+    run the check sequence, then run the next round."""
+
+    if options_index == 0:
+        print("Please select an option.")
+    else:
+        question_check(round, current_question, current_answer, options_index)
 
 
 def player_random_skill_card_clicked():
@@ -155,7 +169,22 @@ def current_held_skill_cards_list_currentRowChanged(index: int):
 
 
 def player_options_list_widget_currentRowChanged(index: int):
-    print(index)
+    global options_index
+    options_index = index
+
+    # I want this function to use the index it has,
+    # to go and find the right answer.
+    # It could do this by using the currently selected Question object,
+    # Then compare it and the [user's answer].
+    # the way to find [user's answer] could be to have a global list which
+    # holds the currently displayed options
+    # (which would include the correct option).
+    # the currently displayed options will all be items on the widget.
+    # The index the user has
+    # clicked on will immediately set [user's asnwer] to list[selected_index]
+    # When the question check is run, it will compare [user's answer]
+    # to the correct_answer property within the Question
+    # object currently selected.
 
 
 player_go_button.clicked.connect(player_go_button_clicked)

@@ -23,6 +23,7 @@ The first options at the start of the game include the
 guide text, and the play option. After this, when GO and an Option has been pressed,
 the question will change and the round_number variable will increase by 1."""
 
+from asyncio.windows_events import NULL
 from questions import *
 
 from dataclasses import dataclass
@@ -66,8 +67,8 @@ main_widget.setLayout(vbox)
 # Top Widget - Question Widget ###############THIS FIRST
 
 
-question_label = QLabel(question_sequence(
-    round, current_question, current_answer, current_options))
+question_label = QLabel(new_question_to_display._question) # Okay so small bug here but I think that's fine...?
+# Looks like the continuation of the last bug that hit my Question code.
 vbox.addWidget(question_label)
 question_label.setStyleSheet("background-color: pink;")  # Not Perma
 
@@ -87,9 +88,13 @@ left_widget.setStyleSheet("background-color: orange;")  # Not Perma
 left_widget_vbox = QVBoxLayout()
 left_widget.setLayout(left_widget_vbox)
 
+current_displayed_options = [new_question_to_display._answer] # REMEMBER THESE PROPERTIES ARE UNPROTECTED
+current_displayed_options += new_question_to_display._options
+random.shuffle(current_displayed_options)
+
 player_options_list_widget = QListWidget()
-for i in range(3):
-    player_options_list_widget.addItem(f"Option {i}")
+for option in current_displayed_options:
+    player_options_list_widget.addItem(option)
 player_score_widget = QLabel("Score")
 left_widget_vbox.addWidget(player_options_list_widget)
 left_widget_vbox.addWidget(player_score_widget)
@@ -154,7 +159,7 @@ def player_go_button_clicked():
     """When the go button is pressed, and if an option was selected,
     run the check sequence, then run the next round."""
 
-    if options_index == 0:
+    if options_index == NULL:
         print("Please select an option.")
     else:
         question_check(round, current_question, current_answer, options_index)
@@ -176,6 +181,7 @@ def player_options_list_widget_currentRowChanged(index: int):
     # to go and find the right answer.
     # It could do this by using the currently selected Question object,
     # Then compare it and the [user's answer].
+
     # the way to find [user's answer] could be to have a global list which
     # holds the currently displayed options
     # (which would include the correct option).

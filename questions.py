@@ -60,20 +60,20 @@ class Questions:
     _difficulty: str
     _reward: int
 
-    def question(self):
-        return self._question
+    # def question(self) -> str:
+    #     return self._question
 
-    def answer(self) -> str:
-        return self._answer
+    # def answer(self) -> str:
+    #     return self._answer
 
-    def options(self) -> list:
-        return self._options
+    # def options(self) -> list:
+    #     return self._options
 
-    def difficulty(self) -> str:
-        return self._difficulty
+    # def difficulty(self) -> str:
+    #     return self._difficulty
 
-    def reward(self) -> int:
-        return self._reward
+    # def reward(self) -> int:
+    #     return self._reward
 
 
 @dataclass
@@ -103,6 +103,8 @@ skill_cards_available_list = [Skill_Card("Hermit Purple!", "Stops time!", 1),
 user_skill_card_list = ["Hermit Purple!", "Star Platinum!", "Pomu"]
 
 
+#print("Stinky ",question_list[0].options)
+
 # Question-Display
 def question_selection(local_question_list):
     global new_question_to_display
@@ -112,6 +114,13 @@ def question_selection(local_question_list):
 
 # Runs to select a random question
 question_selection(question_list)
+
+"""AIGHT SO SMALL PROBLEM TURNS OUT NEWQUESTIONTODISPLAY IS A BOUND METHOD,
+WTF THAT MEANS IDK BUT WHAT I DO KNOW IS THAT I CANT ACCESS THE DATA INSIDE IT
+
+29/10/22 OK SO TEMPORARY FIX I JUST REMOVED ALL THE METHODS INSIDE THE CLASS. IT WORKS NOW
+BUT MUST DO A PROPER FIX SOMETIME, MAYBE WHEN CATGIRL JAMES RESPOND."""
+#print("BABABABABAABABAB...", new_question_to_display._options)
 
 # Question + Answer Database
 current_question = new_question_to_display._question

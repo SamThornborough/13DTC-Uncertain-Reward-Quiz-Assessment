@@ -198,7 +198,7 @@ def player_options_list_widget_currentRowChanged(index: int):
     # When the question check is run, it will compare [user's answer]
     # to the correct_answer property within the Question
     # object currently selected.
-    # Mostly done
+    # Mostly done - 29/10/22
 
 
 """OK NEW PLAN NOW.

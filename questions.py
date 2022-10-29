@@ -60,20 +60,25 @@ class Questions:
     _difficulty: str
     _reward: int
 
-    # def question(self) -> str:
-    #     return self._question
+    @property
+    def question(self) -> str:
+        return self._question
 
-    # def answer(self) -> str:
-    #     return self._answer
+    @property
+    def answer(self) -> str:
+        return self._answer
 
-    # def options(self) -> list:
-    #     return self._options
+    @property
+    def options(self) -> list:
+        return self._options
 
-    # def difficulty(self) -> str:
-    #     return self._difficulty
+    @property
+    def difficulty(self) -> str:
+        return self._difficulty
 
-    # def reward(self) -> int:
-    #     return self._reward
+    @property
+    def reward(self) -> int:
+        return self._reward
 
 
 @dataclass
@@ -82,13 +87,16 @@ class Skill_Card:
     _card_definition: str
     _card_property_id: int
 
+    @property
     def card_name(self):
         return self._card_name
 
+    @property
     def card_definition(self):
 
         return self._card_definition
 
+    @property
     def card_property_id(self):
         return self._card_property_id
 
@@ -120,12 +128,12 @@ WTF THAT MEANS IDK BUT WHAT I DO KNOW IS THAT I CANT ACCESS THE DATA INSIDE IT
 
 29/10/22 OK SO TEMPORARY FIX I JUST REMOVED ALL THE METHODS INSIDE THE CLASS. IT WORKS NOW
 BUT MUST DO A PROPER FIX SOMETIME, MAYBE WHEN CATGIRL JAMES RESPOND."""
-#print("BABABABABAABABAB...", new_question_to_display._options)
+print("BABABABABAABABAB...", new_question_to_display.options)
 
 # Question + Answer Database
-current_question = new_question_to_display._question
-current_answer = new_question_to_display._answer
-current_options = new_question_to_display._options
+current_question = new_question_to_display.question
+current_answer = new_question_to_display.answer
+current_options = new_question_to_display.options
 
 
 # Function that prompts question
@@ -156,9 +164,9 @@ def answer_is_incorrect(score, round):
     round_ended = True
 
 
-def question_check(round, local_current_question,
-                   local_current_answer, user_answer,):
+def question_check(round, local_current_answer, user_answer,):
     if user_answer == local_current_answer:
+        print("correct")
         answer_is_correct(score_minimum, score_maximum)
     # elif user_answer == "Tea_breaktime":
     #     user_card_hand = random_reward(score, user_skill_card_list)
@@ -167,6 +175,7 @@ def question_check(round, local_current_question,
     #                          skill_cards_available_list)
     else:
         answer_is_incorrect(score, round)
+        print("I'm broken")
 
 
 def skill_list_activated(local_user_skill_card_list,
@@ -198,7 +207,7 @@ def main_sequence():
         # main game sequence.
         question_sequence(round, current_question, current_answer, current_options)
         print(user_answer)
-        question_check(round, current_question, current_answer, user_answer)
+        question_check(round, current_answer, user_answer)
 
 
 """

@@ -66,8 +66,8 @@ main_widget.setLayout(vbox)
 
 # Top Widget - Question Widget ###############THIS FIRST
 
-
-question_label = QLabel(new_question_to_display._question) # Okay so small bug here but I think that's fine...?
+options_index = -1 # This var is for setting the selected options to nothing, have it do this every new question
+question_label = QLabel(new_question_to_display.question) # Okay so small bug here but I think that's fine...?
 # Looks like the continuation of the last bug that hit my Question code.
 vbox.addWidget(question_label)
 question_label.setStyleSheet("background-color: pink;")  # Not Perma
@@ -88,8 +88,8 @@ left_widget.setStyleSheet("background-color: orange;")  # Not Perma
 left_widget_vbox = QVBoxLayout()
 left_widget.setLayout(left_widget_vbox)
 
-current_displayed_options = [new_question_to_display._answer] # REMEMBER THESE PROPERTIES ARE UNPROTECTED
-current_displayed_options += new_question_to_display._options
+current_displayed_options = [new_question_to_display.answer] # REMEMBER THESE PROPERTIES ARE UNPROTECTED
+current_displayed_options += new_question_to_display.options
 random.shuffle(current_displayed_options)
 
 player_options_list_widget = QListWidget()
@@ -159,10 +159,10 @@ def player_go_button_clicked():
     """When the go button is pressed, and if an option was selected,
     run the check sequence, then run the next round."""
 
-    if options_index == NULL:
+    if options_index == -1:
         print("Please select an option.")
     else:
-        question_check(round, current_question, current_answer, options_index)
+        question_check(round, current_answer, user_answer)
 
 
 def player_random_skill_card_clicked():
@@ -175,7 +175,14 @@ def current_held_skill_cards_list_currentRowChanged(index: int):
 
 def player_options_list_widget_currentRowChanged(index: int):
     global options_index
+    print("shiiii", options_index)
     options_index = index
+    print("fuuuu", index)
+    #This runs at the start before any item is selected. Why?
+
+    global user_answer
+    user_answer = current_displayed_options[index]
+    print(user_answer)
 
     # I want this function to use the index it has,
     # to go and find the right answer.
@@ -191,6 +198,20 @@ def player_options_list_widget_currentRowChanged(index: int):
     # When the question check is run, it will compare [user's answer]
     # to the correct_answer property within the Question
     # object currently selected.
+    # Mostly done
+
+
+"""OK NEW PLAN NOW.
+SO THE CODE WORKS, IT CAN FIND THE CORRECT ANSWER IN THE QUESTIONS.
+HOWEVER, WE ALSO FOUND THAT IT DOESN'T RESET THE QUESTION, BUT NOT JUST THAT
+I REALISED THAT IT WON'T FIND THE QUESTION SPINNER. I NEED TO CREATE A FUNCTION THAT
+CLEARS EVERYTHING AND RESETS ALL THE GUI. NEED TO PLAN HOW TO DO THIS.
+PLAN A: USE THE ROUND NUMBER VARIABLE, WHENEVER THAT CHANGES A FUNCTION OR LOOP RUNS THROUGH THE STUFF,
+RESETTING EVERYTHING.
+PLAN B: JUST PUT ALL OF MY GUI STUFF INTO A FUNCTION THAT RUNS EVERY TIME I CALL IT
+(COULD PUT THIS INTO A NEW DOCUMENT TOO FOR CLEANLINESS). JUST NEED IT CALLED AT THE START.
+
+IN RETROSPECT I FEEL LIKE PLAN A IS MORE COMPLICATED. PLAN B IS SIMPLER I FEEL. LETS TRY IT."""
 
 
 player_go_button.clicked.connect(player_go_button_clicked)

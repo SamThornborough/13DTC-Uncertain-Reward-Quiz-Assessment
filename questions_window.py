@@ -170,6 +170,25 @@ player_random_skill_card.setStyleSheet("background-color: white")  # Not Perma
 #     question_label = QLabel(new_question_to_display.question)  # Okay so small bug here but I think that's fine...?
 
 
+
+"""9:51 OLI OKAY SO CMON THE RESET DISPLAYS I THINK IS VAR ERROR,
+ITS USING THESE VARIABLES LOCALLY, AND I HAVE A FEW PLANS
+
+EDDIE AGREES: well you are acessing most of these variables
+as if they are global but you havnt told it to reference them as global
+
+PLAN A: GLOBAL ALL OF THEM, UGLY SOLUTION, PREFER NOT TO DO THIS
+PLAB B: CHANGE RESET_DISPLAYS TO RETURN A TON OF VARIABLES IT CHANGES,
+CHANGE WHEREVER RESET_DISPLAYS IS TOO AND GIVE IT HOWEVER MANY ARGUMENTS IT NEEDS
+
+REMEMBER I THINK THIS IS A VARIABLE PROBLEM BC IT DIDNT RESET THE GUI, I THINK
+IT DID ACTUALLY BUT I COULDNT TELL BC VARIABLES MIGHT NOT BE WORKING SO
+LETS GET THAT WORKING FIRST,
+
+AND AFTER THAT IF IT STILL NOT WORKING, THEN WE CAN RULE OUT VARS AND
+TURN TO THE RESET DISPLAYS CODE ITSELF."""
+
+
 def reset_displays():
     current_held_skill_cards_list.clear()
     for skill_card in user_skill_card_list:

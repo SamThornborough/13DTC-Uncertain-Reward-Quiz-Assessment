@@ -160,7 +160,8 @@ def answer_is_correct(local_score_minimum, local_score_maximum, reset_displays: 
     global new_question_to_display
     new_question_to_display = question_selection(question_list)
 
-    reset_displays()
+    global current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label
+    current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label = reset_displays(current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label)
 
 
 def answer_is_incorrect(score, round):

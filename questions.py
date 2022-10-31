@@ -151,15 +151,13 @@ def question_sequence(round, local_current_question, local_current_answer, local
     return question
 
 
-def answer_is_correct(local_score_minimum, local_score_maximum):
+def answer_is_correct(local_score_minimum, local_score_maximum, reset_displays: "fucntion"):
     # When a correct answer is found, grants the user a random number of points.
     global score
     score += random.randint(local_score_minimum, local_score_maximum)
     print(f"Your new score is {score}.")
     global new_question_to_display
     new_question_to_display = question_selection(question_list)
-
-    from questions_window import reset_displays
 
     reset_displays()
 
@@ -171,7 +169,7 @@ def answer_is_incorrect(score, round):
     round_ended = True
 
 
-def question_check(round, local_current_answer, user_answer,):
+def question_check(round, local_current_answer, user_answer, reset_displays: "function"):
     if user_answer == local_current_answer:
         print("correct")
         answer_is_correct(score_minimum, score_maximum)
@@ -209,12 +207,12 @@ def random_reward(local_user_score, all_cards_list):
             pass
     return new_card
 
-def main_sequence():
+def main_sequence(reset_displays: "function"):
     while round_ended is not True:
         # main game sequence.
         question_sequence(round, current_question, current_answer, current_options)
         print(user_answer)
-        question_check(round, current_answer, user_answer)
+        question_check(round, current_answer, user_answer, reset_displays)
 
 
 """

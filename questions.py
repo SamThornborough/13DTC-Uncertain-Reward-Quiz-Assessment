@@ -139,16 +139,16 @@ current_options = new_question_to_display.options
 
 
 # Function that prompts question
-def question_sequence(round, local_current_question, local_current_answer, local_current_options):
-    for x in local_current_options, local_current_answer:
-        # print(local_current_options, local_current_answer)
-        question = x
-    # print(x for x in local_current_options, local_current_answer)
-    print("Select: ")
-    round += 1
-    # global user_answer
-    # user_answer = input(local_current_question)
-    return question
+# def question_sequence(round, local_current_question, local_current_answer, local_current_options):
+#     for x in local_current_options, local_current_answer:
+#         # print(local_current_options, local_current_answer)
+#         question = x
+#     # print(x for x in local_current_options, local_current_answer)
+#     print("Select: ")
+#     round += 1
+#     # global user_answer
+#     # user_answer = input(local_current_question)
+#     return question
 
 
 def answer_is_correct(local_score_minimum, local_score_maximum, reset_displays: "fucntion"):
@@ -172,7 +172,7 @@ def answer_is_incorrect(score, round):
 def question_check(round, local_current_answer, user_answer, reset_displays: "function"):
     if user_answer == local_current_answer:
         print("correct")
-        answer_is_correct(score_minimum, score_maximum)
+        answer_is_correct(score_minimum, score_maximum, reset_displays)
     # elif user_answer == "Tea_breaktime":
     #     user_card_hand = random_reward(score, user_skill_card_list)
     # elif user_answer == "skill_activate":

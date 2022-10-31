@@ -172,9 +172,13 @@ player_random_skill_card.setStyleSheet("background-color: white")  # Not Perma
 
 def reset_displays():
     current_held_skill_cards_list.clear()
+    for skill_card in user_skill_card_list:
+        current_held_skill_cards_list.addItem(skill_card)
     player_options_list_widget.clear()
-    player_score_widget.setText(score)
-    question_label.setText(new_question_to_display)
+    for option in current_displayed_options:
+        player_options_list_widget.addItem(option)
+    player_score_widget.setText(str(score))
+    question_label.setText(new_question_to_display.question)
     print("reset display was completed successfully.")
 
 # Signal Methods

@@ -187,7 +187,7 @@ def player_go_button_clicked():
     if options_index == -1:
         print("Please select an option.")
     else:
-        question_check(round, current_answer, user_answer)
+        question_check(round, current_answer, user_answer, reset_displays)
 
 
 def player_random_skill_card_clicked():
@@ -251,7 +251,7 @@ player_options_list_widget.currentRowChanged.connect(
 main_window.show()
 app.exec()
 
-main_sequence()
+main_sequence(reset_displays)
 
 """RuntimeError: Please destroy the QApplication singleton before creating a new QApplication instance.
 Okay so the problem is im trying to change the thing while they're still displaying...? I have some idea's

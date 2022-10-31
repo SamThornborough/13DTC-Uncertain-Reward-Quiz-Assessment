@@ -5,6 +5,7 @@
 """ Here I will create the basic window layout with a simple question answer
 quiz layout. The basic framework of my game
 """
+#from questions_window import *
 
 from dataclasses import dataclass
 import random
@@ -117,6 +118,7 @@ user_skill_card_list = ["Hermit Purple!", "Star Platinum!", "Pomu"]
 def question_selection(local_question_list):
     global new_question_to_display
     new_question_to_display = local_question_list[random.randint(0, len(local_question_list))-1]
+    print("Mission failed successfully.")
     # new_answer = question_list
 
 
@@ -127,7 +129,7 @@ question_selection(question_list)
 WTF THAT MEANS IDK BUT WHAT I DO KNOW IS THAT I CANT ACCESS THE DATA INSIDE IT
 
 29/10/22 OK SO TEMPORARY FIX I JUST REMOVED ALL THE METHODS INSIDE THE CLASS. IT WORKS NOW
-BUT MUST DO A PROPER FIX SOMETIME, MAYBE WHEN CATGIRL JAMES RESPOND."""
+BUT MUST DO A PROPER FIX SOMETIME, MAYBE WHEN CATGIRL JAMES RESPOND. ***OK WORKS FR NOW DW FUTURE ME***"""
 print("BABABABABAABABAB...", new_question_to_display.options)
 
 # Question + Answer Database
@@ -154,7 +156,12 @@ def answer_is_correct(local_score_minimum, local_score_maximum):
     global score
     score += random.randint(local_score_minimum, local_score_maximum)
     print(f"Your new score is {score}.")
-    question_selection(question_list)
+    global new_question_to_display
+    new_question_to_display = question_selection(question_list)
+
+    from questions_window import reset_displays
+
+    reset_displays()
 
 
 def answer_is_incorrect(score, round):

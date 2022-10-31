@@ -15,7 +15,7 @@ NEXT:
 I need to then start combining the Gui to their
 respective variables and methods.
 
-AFTER THIS:
+AFTER THIS: <<<<<<<<<<<<<<<<<<<<<<< THIS
 I had an idea that could help my code.
 The game rounds increase every time GO is pressed,
 AND when an option is selected.
@@ -23,6 +23,7 @@ The first options at the start of the game include the
 guide text, and the play option. After this, when GO and an Option has been pressed,
 the question will change and the round_number variable will increase by 1."""
 
+from ast import Delete
 from asyncio.windows_events import NULL
 from questions import *
 
@@ -33,6 +34,9 @@ from turtle import right
 from typing import List
 from PySide6.QtWidgets import *
 from pytest import Item
+
+# Runs to select a random question
+question_selection(question_list)
 
 # Set app and main window
 app = QApplication()
@@ -88,7 +92,7 @@ left_widget.setStyleSheet("background-color: orange;")  # Not Perma
 left_widget_vbox = QVBoxLayout()
 left_widget.setLayout(left_widget_vbox)
 
-current_displayed_options = [new_question_to_display.answer] # REMEMBER THESE PROPERTIES ARE UNPROTECTED
+current_displayed_options = [new_question_to_display.answer]
 current_displayed_options += new_question_to_display.options
 random.shuffle(current_displayed_options)
 
@@ -151,6 +155,27 @@ player_go_button.setStyleSheet("background-color: green;")  # Not Perma
 player_random_skill_card = QPushButton("SPIN FOR SKILL CARDS")
 right_widget_vbox_layout.addWidget(player_random_skill_card)
 player_random_skill_card.setStyleSheet("background-color: white")  # Not Perma
+
+# Methods
+
+
+# def reset_displays():
+#     current_displayed_options = [new_question_to_display.answer]
+#     current_displayed_options += new_question_to_display.options
+#     random.shuffle(current_displayed_options)
+#     player_options_list_widget = QListWidget()
+#     for option in current_displayed_options:
+#         player_options_list_widget.addItem(option)
+#     player_score_widget = QLabel("Score")
+#     question_label = QLabel(new_question_to_display.question)  # Okay so small bug here but I think that's fine...?
+
+
+def reset_displays():
+    current_held_skill_cards_list.clear()
+    player_options_list_widget.clear()
+    player_score_widget.setText(score)
+    question_label.setText(new_question_to_display)
+    print("reset display was completed successfully.")
 
 # Signal Methods
 
@@ -227,3 +252,12 @@ main_window.show()
 app.exec()
 
 main_sequence()
+
+"""RuntimeError: Please destroy the QApplication singleton before creating a new QApplication instance.
+Okay so the problem is im trying to change the thing while they're still displaying...? I have some idea's
+
+PLAN A: try something like - clear widget or something, and just have teverything reset, so putting all that
+code into one method, going clear all, then leaving it at that.
+
+PLAN B: ask catgirl James
+"""

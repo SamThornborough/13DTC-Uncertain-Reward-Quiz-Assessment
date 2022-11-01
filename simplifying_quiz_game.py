@@ -43,17 +43,9 @@ def question_check(round, local_current_answer,
         global new_question_to_display
         new_question_to_display = question_selection(question_list)
 
-        # global current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label
-        # current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label = reset_displays(current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label)
-        current_held_skill_cards_list.clear()
-        for skill_card in user_skill_card_list:
-            current_held_skill_cards_list.addItem(skill_card)
-        player_options_list_widget.clear()
-        for option in current_displayed_options:
-            player_options_list_widget.addItem(option)
-        player_score_widget.setText(str(score))
-        question_label.setText(new_question_to_display.question)
-        print("reset display was completed successfully.")
+        global current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label
+        current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label = reset_displays(current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label)
+    
 
     # elif user_answer == "Tea_breaktime":
     #     user_card_hand = random_reward(score, user_skill_card_list)
@@ -61,14 +53,29 @@ def question_check(round, local_current_answer,
     #     skill_list_activated(user_skill_card_list,
     #                          skill_cards_available_list)
     else:
+        global game_running
+        game_running = False
         print("You have lost the games")
         main_window.exit(app.exec())
+
 
 
 def question_selection(local_question_list):
     global new_question_to_display
     # new_question_to_display =
     return local_question_list[random.randint(0, len(local_question_list))-1]
+
+def reset_displays(current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label):
+    current_held_skill_cards_list.clear()
+    for skill_card in user_skill_card_list:
+        current_held_skill_cards_list.addItem(skill_card)
+    player_options_list_widget.clear()
+    for option in current_displayed_options:
+        player_options_list_widget.addItem(option)
+    player_score_widget.setText(str(score))
+    question_label.setText(new_question_to_display.question)
+    print("reset display was completed successfully.")
+    return current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label
 
 
 # Signal Methods ---------------------------------------------------------------------------------------------------------------------------
@@ -167,6 +174,7 @@ if __name__ == "__main__":
     app = QApplication()
     main_window = QMainWindow()
     main_window.setWindowTitle("Questions")
+    game_running = True
     # Declarations ---------------------------------------------------------------------------------------------------------------------------
 
 
@@ -181,152 +189,169 @@ if __name__ == "__main__":
     skill_cards_available_list = [Skill_Card("Hermit Purple!", "Stops time!", 1),
                                 Skill_Card("Star PLatinum!", "OHMAGAAHHHD", 2)]
 
-    user_skill_card_list = ["Hermit Purple!", "Star Platinum!", "Pomu"]
+    while game_running == True:
+        user_skill_card_list = ["Hermit Purple!", "Star Platinum!", "Pomu"]
 
-    new_question_to_display = None
+        new_question_to_display = None
 
-    user_answer = ''
-    round = 0
-    user_card_hand = []
+        user_answer = ''
+        round = 0
+        user_card_hand = []
 
-    score = 0
+        score = 0
 
-    round_ended = False
+        round_ended = False
 
-    # I hope that these variables will increase as the difficulty (?) increases
-    # as well.
-    score_minimum = 0
-    score_maximum = 10
+        # I hope that these variables will increase as the difficulty (?) increases
+        # as well.
+        score_minimum = 0
+        score_maximum = 10
 
+        # GAME LOOP =========================
+        msgBox = QMessageBox()
+        msgBox.setText("The game is now running.")
+        msgBox.exec()
+        new_question_to_display = question_selection(question_list)
 
-    # GAME LOOP =========================
-    msgBox = QMessageBox()
-    msgBox.setText("The game is now running.")
-    msgBox.exec()
-    new_question_to_display = question_selection(question_list)
+        # Question + Answer Database
+        current_question = new_question_to_display.question
+        current_answer = new_question_to_display.answer
+        current_options = new_question_to_display.options
 
-    # Question + Answer Database
-    current_question = new_question_to_display.question
-    current_answer = new_question_to_display.answer
-    current_options = new_question_to_display.options
+        # Main Widgets
+        main_widget = QWidget()
+        main_window.setCentralWidget(main_widget)
+        vbox = QVBoxLayout()
+        main_widget.setLayout(vbox)
 
-    # Main Widgets
-    main_widget = QWidget()
-    main_window.setCentralWidget(main_widget)
-    vbox = QVBoxLayout()
-    main_widget.setLayout(vbox)
+        # Top Widget - Question Widget ###############THIS FIRST
 
-    # Top Widget - Question Widget ###############THIS FIRST
+        options_index = -1 # This var is for setting the selected options to nothing, have it do this every new question
+        question_label = QLabel(new_question_to_display.question) # Okay so small bug here but I think that's fine...?
+        # Looks like the continuation of the last bug that hit my Question code.
+        vbox.addWidget(question_label)
+        question_label.setStyleSheet("background-color: pink;")  # Not Perma
 
-    options_index = -1 # This var is for setting the selected options to nothing, have it do this every new question
-    question_label = QLabel(new_question_to_display.question) # Okay so small bug here but I think that's fine...?
-    # Looks like the continuation of the last bug that hit my Question code.
-    vbox.addWidget(question_label)
-    question_label.setStyleSheet("background-color: pink;")  # Not Perma
+        # Inner Main Widget
 
-    # Inner Main Widget
+        inner_main_widget = QWidget()
+        vbox.addWidget(inner_main_widget)
+        hbox = QHBoxLayout()
+        inner_main_widget.setLayout(hbox)
+        main_widget.setStyleSheet("background-color: red;")  # Not Perma
 
-    inner_main_widget = QWidget()
-    vbox.addWidget(inner_main_widget)
-    hbox = QHBoxLayout()
-    inner_main_widget.setLayout(hbox)
-    main_widget.setStyleSheet("background-color: red;")  # Not Perma
+        # Left Widget - Options and Score Widgets
 
-    # Left Widget - Options and Score Widgets
+        left_widget = QWidget()
+        hbox.addWidget(left_widget)
+        left_widget.setStyleSheet("background-color: orange;")  # Not Perma
+        left_widget_vbox = QVBoxLayout()
+        left_widget.setLayout(left_widget_vbox)
 
-    left_widget = QWidget()
-    hbox.addWidget(left_widget)
-    left_widget.setStyleSheet("background-color: orange;")  # Not Perma
-    left_widget_vbox = QVBoxLayout()
-    left_widget.setLayout(left_widget_vbox)
+        current_displayed_options = [new_question_to_display.answer]
+        current_displayed_options += new_question_to_display.options
+        random.shuffle(current_displayed_options)
 
-    current_displayed_options = [new_question_to_display.answer]
-    current_displayed_options += new_question_to_display.options
-    random.shuffle(current_displayed_options)
+        player_options_list_widget = QListWidget()
+        for option in current_displayed_options:
+            player_options_list_widget.addItem(option)
+        player_score_widget = QLabel("Score")
+        left_widget_vbox.addWidget(player_options_list_widget)
+        left_widget_vbox.addWidget(player_score_widget)
 
-    player_options_list_widget = QListWidget()
-    for option in current_displayed_options:
-        player_options_list_widget.addItem(option)
-    player_score_widget = QLabel("Score")
-    left_widget_vbox.addWidget(player_options_list_widget)
-    left_widget_vbox.addWidget(player_score_widget)
+        # Middle Widget - Current Held Cards Display ###### NEXT TARGET
 
-    # Middle Widget - Current Held Cards Display ###### NEXT TARGET
+        current_held_skill_cards_list = QListWidget()
+        # for current_index in range (len(user_skill_card_list)):      # NOT PERMA, placeholder code
+        for current_skill_card in user_skill_card_list:
+            print(current_skill_card)
+            current_held_skill_cards_list.addItem(current_skill_card)
+        hbox.addWidget(current_held_skill_cards_list)
+        current_held_skill_cards_list.setStyleSheet("background-color: cyan")
 
-    current_held_skill_cards_list = QListWidget()
-    # for current_index in range (len(user_skill_card_list)):      # NOT PERMA, placeholder code
-    for current_skill_card in user_skill_card_list:
-        print(current_skill_card)
-        current_held_skill_cards_list.addItem(current_skill_card)
-    hbox.addWidget(current_held_skill_cards_list)
-    current_held_skill_cards_list.setStyleSheet("background-color: cyan")
+        # current_held_skill_cards = QListWidget()
+        # current_held_skill_cards.addItem("Card 1")
 
-    # current_held_skill_cards = QListWidget()
-    # current_held_skill_cards.addItem("Card 1")
+        # # Right Widget
 
-    # # Right Widget
+        # right_widget = QWidget()
+        # right_widget_vbox_layout = QVBoxLayout()
+        # right_widget.setLayout(right_widget_vbox_layout)
+        # right_widget.setStyleSheet("background-color: purple;") # Not Perma
 
-    # right_widget = QWidget()
-    # right_widget_vbox_layout = QVBoxLayout()
-    # right_widget.setLayout(right_widget_vbox_layout)
-    # right_widget.setStyleSheet("background-color: purple;") # Not Perma
+        # #          Right Widget text
+        # hbox.addWidget(right_widget)
 
-    # #          Right Widget text
-    # hbox.addWidget(right_widget)
+        # text_test = QLabel("Test the right widget")
+        # right_widget_vbox_layout.addWidget(text_test)
+        # text_test.setStyleSheet("background-color: green;") # Not Perma
 
-    # text_test = QLabel("Test the right widget")
-    # right_widget_vbox_layout.addWidget(text_test)
-    # text_test.setStyleSheet("background-color: green;") # Not Perma
+        # #          Bottom Widget For Right
 
-    # #          Bottom Widget For Right
+        # right_bottom_widget = QWidget()
+        # right_widget_vbox_layout.addWidget(right_bottom_widget)
+        # right_bottom_widget.setStyleSheet("background-color: white")
 
-    # right_bottom_widget = QWidget()
-    # right_widget_vbox_layout.addWidget(right_bottom_widget)
-    # right_bottom_widget.setStyleSheet("background-color: white")
+        # Right Widget
 
-    # Right Widget
+        right_widget = QWidget()
+        hbox.addWidget(right_widget)
+        right_widget_vbox_layout = QVBoxLayout()
+        right_widget.setLayout(right_widget_vbox_layout)
+        right_widget.setStyleSheet("background-color: purple;")  # Not Perma
 
-    right_widget = QWidget()
-    hbox.addWidget(right_widget)
-    right_widget_vbox_layout = QVBoxLayout()
-    right_widget.setLayout(right_widget_vbox_layout)
-    right_widget.setStyleSheet("background-color: purple;")  # Not Perma
+        #          Right Widget top - Go Button
 
-    #          Right Widget top - Go Button
+        player_go_button = QPushButton("GO")
+        right_widget_vbox_layout.addWidget(player_go_button)
+        player_go_button.setStyleSheet("background-color: green;")  # Not Perma
 
-    player_go_button = QPushButton("GO")
-    right_widget_vbox_layout.addWidget(player_go_button)
-    player_go_button.setStyleSheet("background-color: green;")  # Not Perma
+        #          Right Widget bottom - Rangamble Button
 
-    #          Right Widget bottom - Rangamble Button
-
-    player_random_skill_card = QPushButton("SPIN FOR SKILL CARDS")
-    right_widget_vbox_layout.addWidget(player_random_skill_card)
-    player_random_skill_card.setStyleSheet("background-color: white")  # Not Perma
-
-
-
-    """OK NEW PLAN NOW.
-    SO THE CODE WORKS, IT CAN FIND THE CORRECT ANSWER IN THE QUESTIONS.
-    HOWEVER, WE ALSO FOUND THAT IT DOESN'T RESET THE QUESTION, BUT NOT JUST THAT
-    I REALISED THAT IT WON'T FIND THE QUESTION SPINNER. I NEED TO CREATE A FUNCTION THAT
-    CLEARS EVERYTHING AND RESETS ALL THE GUI. NEED TO PLAN HOW TO DO THIS.
-    PLAN A: USE THE ROUND NUMBER VARIABLE, WHENEVER THAT CHANGES A FUNCTION OR LOOP RUNS THROUGH THE STUFF,
-    RESETTING EVERYTHING.
-    PLAN B: JUST PUT ALL OF MY GUI STUFF INTO A FUNCTION THAT RUNS EVERY TIME I CALL IT
-    (COULD PUT THIS INTO A NEW DOCUMENT TOO FOR CLEANLINESS). JUST NEED IT CALLED AT THE START.
-
-    IN RETROSPECT I FEEL LIKE PLAN A IS MORE COMPLICATED. PLAN B IS SIMPLER I FEEL. LETS TRY IT."""
+        player_random_skill_card = QPushButton("SPIN FOR SKILL CARDS")
+        right_widget_vbox_layout.addWidget(player_random_skill_card)
+        player_random_skill_card.setStyleSheet("background-color: white")  # Not Perma
 
 
-    player_go_button.clicked.connect(player_go_button_clicked)
 
-    player_random_skill_card.clicked.connect(player_random_skill_card_clicked)
+        """OK NEW PLAN NOW.
+        SO THE CODE WORKS, IT CAN FIND THE CORRECT ANSWER IN THE QUESTIONS.
+        HOWEVER, WE ALSO FOUND THAT IT DOESN'T RESET THE QUESTION, BUT NOT JUST THAT
+        I REALISED THAT IT WON'T FIND THE QUESTION SPINNER. I NEED TO CREATE A FUNCTION THAT
+        CLEARS EVERYTHING AND RESETS ALL THE GUI. NEED TO PLAN HOW TO DO THIS.
+        PLAN A: USE THE ROUND NUMBER VARIABLE, WHENEVER THAT CHANGES A FUNCTION OR LOOP RUNS THROUGH THE STUFF,
+        RESETTING EVERYTHING.
+        PLAN B: JUST PUT ALL OF MY GUI STUFF INTO A FUNCTION THAT RUNS EVERY TIME I CALL IT
+        (COULD PUT THIS INTO A NEW DOCUMENT TOO FOR CLEANLINESS). JUST NEED IT CALLED AT THE START.
 
-    current_held_skill_cards_list.currentRowChanged.connect(
-        current_held_skill_cards_list_currentRowChanged)
-    player_options_list_widget.currentRowChanged.connect(
-        player_options_list_widget_currentRowChanged)
+        IN RETROSPECT I FEEL LIKE PLAN A IS MORE COMPLICATED. PLAN B IS SIMPLER I FEEL. LETS TRY IT."""
 
-main_window.show()
-app.exec()
+
+        player_go_button.clicked.connect(player_go_button_clicked)
+
+        player_random_skill_card.clicked.connect(player_random_skill_card_clicked)
+
+        current_held_skill_cards_list.currentRowChanged.connect(
+            current_held_skill_cards_list_currentRowChanged)
+        player_options_list_widget.currentRowChanged.connect(
+            player_options_list_widget_currentRowChanged)
+
+        main_window.show()
+        app.exec()
+
+"""OKAY SO NOW 1/11/22 NEW PROBLEM
+THE CODE DOESN'T CLOSE ITSELF BUT THE MAIN LOOP DOES STOP
+WHEN THE QUESTION IS WRONG
+NOW
+NEW PROBLEM
+THE QUESTIONS ARE CHANGING, AS ARE THE POINTS, BUT
+THE LISTS ARE NOT.
+PLAN A ON FICXING THIS:
+LOOK AT THE RESET_DISPLAYS
+LIST, THIS MUST BE THE ISSUE
+PLAN B - ALSO
+MAKE THE CODE PRINT OUT THE NEW DISPLAY OPTIONS
+IT SHOULD TELL US THE NEW OPTIONS
+SO THEN OLIVIA YOU CAN SEE IF IT IS VAR OR FUNC ISSUE
+
+PLAN C - ASK S/E"""

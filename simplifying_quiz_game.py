@@ -42,10 +42,13 @@ def question_check(round, local_current_answer,
         print(f"Your new score is {score}.")
         global new_question_to_display
         new_question_to_display = question_selection(question_list)
+        global current_displayed_options
+        current_displayed_options = new_options(current_displayed_options, new_question_to_display)
 
         global current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label
-        current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label = reset_displays(current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label)
-    
+        #current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label = 
+        reset_displays()
+                                                                                                        # current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label)
 
     # elif user_answer == "Tea_breaktime":
     #     user_card_hand = random_reward(score, user_skill_card_list)
@@ -65,7 +68,8 @@ def question_selection(local_question_list):
     # new_question_to_display =
     return local_question_list[random.randint(0, len(local_question_list))-1]
 
-def reset_displays(current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label):
+
+def reset_displays():
     current_held_skill_cards_list.clear()
     for skill_card in user_skill_card_list:
         current_held_skill_cards_list.addItem(skill_card)
@@ -74,13 +78,15 @@ def reset_displays(current_held_skill_cards_list, player_options_list_widget, pl
         player_options_list_widget.addItem(option)
     player_score_widget.setText(str(score))
     question_label.setText(new_question_to_display.question)
-    print("The following is the new values.",
-          current_held_skill_cards_list,
-          player_options_list_widget, player_score_widget,
-          question_label)
+    print("The following is the new values.", skill_card, current_displayed_options, score, new_question_to_display)
     print("reset display was completed successfully.")
-    return current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label
+    #return current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label
 
+def new_options(current_displayed_options, new_question_to_display):
+    current_displayed_options = [new_question_to_display.answer]
+    current_displayed_options += new_question_to_display.options
+    random.shuffle(current_displayed_options)
+    return current_displayed_options
 
 # Signal Methods ---------------------------------------------------------------------------------------------------------------------------
 
@@ -196,7 +202,7 @@ if __name__ == "__main__":
     while game_running == True:
         user_skill_card_list = ["Hermit Purple!", "Star Platinum!", "Pomu"]
 
-        new_question_to_display = None
+        #new_question_to_display = None
 
         user_answer = ''
         round = 0
@@ -252,9 +258,8 @@ if __name__ == "__main__":
         left_widget_vbox = QVBoxLayout()
         left_widget.setLayout(left_widget_vbox)
 
-        current_displayed_options = [new_question_to_display.answer]
-        current_displayed_options += new_question_to_display.options
-        random.shuffle(current_displayed_options)
+        current_displayed_options = []
+        current_displayed_options = new_options(current_displayed_options, new_question_to_display)
 
         player_options_list_widget = QListWidget()
         for option in current_displayed_options:

@@ -74,6 +74,10 @@ def reset_displays(current_held_skill_cards_list, player_options_list_widget, pl
         player_options_list_widget.addItem(option)
     player_score_widget.setText(str(score))
     question_label.setText(new_question_to_display.question)
+    print("The following is the new values.",
+          current_held_skill_cards_list,
+          player_options_list_widget, player_score_widget,
+          question_label)
     print("reset display was completed successfully.")
     return current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label
 

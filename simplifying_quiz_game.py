@@ -258,7 +258,7 @@ if __name__ == "__main__":
         left_widget_vbox = QVBoxLayout()
         left_widget.setLayout(left_widget_vbox)
 
-        current_displayed_options = []
+        current_displayed_options = [] # So thisnew function resets the code.
         current_displayed_options = new_options(current_displayed_options, new_question_to_display)
 
         player_options_list_widget = QListWidget()
@@ -364,3 +364,14 @@ IT SHOULD TELL US THE NEW OPTIONS
 SO THEN OLIVIA YOU CAN SEE IF IT IS VAR OR FUNC ISSUE
 
 PLAN C - ASK S/E"""
+
+"""NEW PROBLEM
+OK SO FIXED IT NOW OLI NEW PROBLEM THO
+THE CODE RESETS BUT NOW SEE'S EVERYTHING WRONG ON Q2
+WHY IS THAT?
+IM NOT SURE
+I THINK IT MIGHT BE A VARIABLE ERROR
+LIKE SOMEWHERE IN MY CODE SOMETHING ISN'T RESETTING
+SO I JUST NEEDA FIND IT YKYK
+BUT IDK
+FOR NOW LETS SEE."""

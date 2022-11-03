@@ -12,6 +12,7 @@ from asyncio.windows_events import NULL
 from dataclasses import dataclass
 import random
 from re import S
+from threading import local
 from turtle import right
 from typing import List
 from PySide6.QtWidgets import *
@@ -42,6 +43,7 @@ def question_check(round, local_current_answer,
         print(f"Your new score is {score}.")
         global new_question_to_display
         new_question_to_display = question_selection(question_list)
+        print("AFTER",new_question_to_display)
         global current_displayed_options
         current_displayed_options = new_options(current_displayed_options, new_question_to_display)
 
@@ -59,12 +61,13 @@ def question_check(round, local_current_answer,
         global game_running
         game_running = False
         print("You have lost the games")
-        main_window.exit(app.exec())
+        main_window.exit(app.exit())
 
 
 
 def question_selection(local_question_list):
-    global new_question_to_display
+    #global new_question_to_display
+    print("BEFORE", local_question_list)
     # new_question_to_display =
     return local_question_list[random.randint(0, len(local_question_list))-1]
 
@@ -82,7 +85,9 @@ def reset_displays():
     print("reset display was completed successfully.")
     #return current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label
 
+
 def new_options(current_displayed_options, new_question_to_display):
+    print("New Options now: ", current_displayed_options)
     current_displayed_options = [new_question_to_display.answer]
     current_displayed_options += new_question_to_display.options
     random.shuffle(current_displayed_options)

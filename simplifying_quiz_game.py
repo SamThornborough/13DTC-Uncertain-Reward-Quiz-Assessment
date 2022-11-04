@@ -151,6 +151,10 @@ def player_go_button_clicked():
 
     if options_index == -1:
         print("Please select an option.")
+
+        """WE VE ENCOUNTERED A NEW PROBLEM HERE TOO, I THINK ITS SOMETHING TO DO WITH
+        MY INDEX STUFF, I CHANGED CURRENTLY_SELECT YAYD SKILL EARLIER,
+        LOOK THROUGH THAT. DO THE SAME FOR THE OPTIONS INDEX VARIABLES."""
     else:
         global user_answer
         question_check(round, current_answer, user_answer, reset_displays)
@@ -168,8 +172,8 @@ def player_random_skill_card_clicked():
 
 
 def current_held_skill_cards_list_currentRowChanged(index: int):
-    # global currently_selected_skill
-    # currently_selected_skill = index
+    global skill_index
+    skill_index = index
 
     global currently_selected_skill
     currently_selected_skill = user_skill_card_list[index]

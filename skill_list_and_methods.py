@@ -95,7 +95,7 @@ class Skill_Card:
 
 full_skill_card_list = []
 
-def build_game_skill_list(full_skill_card_list)""
+def build_game_skill_list(full_skill_card_list):
     for i in range(30):
         full_skill_card_list.append(Skill_Card("Point Buff",
                                             "Increases the Users point score by"
@@ -139,7 +139,7 @@ def build_game_skill_list(full_skill_card_list)""
 
     return full_skill_card_list
 
-print(full_skill_card_list)
+# print(full_skill_card_list)
 
 
 """

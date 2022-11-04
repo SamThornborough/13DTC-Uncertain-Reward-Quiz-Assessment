@@ -80,11 +80,30 @@ def question_selection(local_question_list):
     # new_question_to_display =
     return local_question_list[random.randint(0, len(local_question_list))-1]
 
+def gamble_for_new_card(score, COST_TO_SPIN, user_skill_card_list, full_skill_card_list):
+        # check if user score can lose 10 points:
+        if score - COST_TO_SPIN <= 0:
+            print("ALERT HERE WARNING CANT AFFORD")
+        # else,
+            # alert the user("you cant afford this yet! Need more score")
+        # if yes, take 10 points
+            return score, COST_TO_SPIN, user_skill_card_list, full_skill_card_list
+        else:
+            score -= COST_TO_SPIN
+            # randomly select an item from the
+            # master skill card list
+            user_skill_card_list.append(full_skill_card_list[random.randint(0, len(full_skill_card_list))-1])
+            # global player skill card
+            # append it to player skill card
+            # reset display and skill display (need to make this just copy n paste the
+            # options reset code ykyk)
+            # aler user which skill card they got
+            return score, COST_TO_SPIN, user_skill_card_list, full_skill_card_list
 
 def reset_displays():
     current_held_skill_cards_list.clear()
     for skill_card in user_skill_card_list:
-        current_held_skill_cards_list.addItem(skill_card)
+        current_held_skill_cards_list.addItem(skill_card.card_name)
     player_options_list_widget.clear()
     for option in current_displayed_options:
         player_options_list_widget.addItem(option)
@@ -131,17 +150,14 @@ def player_go_button_clicked():
 
 
 def player_random_skill_card_clicked():
-    # check if user score can lose 10 points:
-        # if yes, take 10 points
-        # randomly select an item from the
-        # master skill card list
-        # global player skill card
-        # append it to player skill card
-        # reset display and skill display (need to make this just copy n paste the
-        # options reset code ykyk)
-        # aler user which skill card they got
-    # else,
-        # alert the user("you cant afford this yet! Need more score")
+    global score, COST_TO_SPIN, user_skill_card_list, full_skill_card_list
+    score, COST_TO_SPIN, user_skill_card_list, full_skill_card_list = gamble_for_new_card(score, COST_TO_SPIN, user_skill_card_list, full_skill_card_list)
+
+    """OKAY OLI
+    SO THE PROBLEM ATM WITH THIS IS THAT IT RETURNS A NONETYPE OBJECT FOR SOME REASON
+    BUT IDRK WHAT TAHT MEANS OR WHAT I DID WRONG
+    I SUSPECT ITS SOMETHING TO DO WITH MY APPEND COMMAND
+    IN GAMBLE FOR NEW CARD FUNC."""
 
 
 def current_held_skill_cards_list_currentRowChanged(index: int):
@@ -229,12 +245,13 @@ if __name__ == "__main__":
     while game_running == True:
 
         full_skill_card_list = []
-        full_skill_card_list = build_game_skill_list()
+        full_skill_card_list = build_game_skill_list(full_skill_card_list)
 
         user_skill_card_list = []
+        user_skill_card_list.append(full_skill_card_list[random.randint(0, len(full_skill_card_list))-1])
 
         #new_question_to_display = None
-
+        COST_TO_SPIN = 10
         user_answer = ''
         round = 0
         user_card_hand = []
@@ -305,7 +322,7 @@ if __name__ == "__main__":
         # for current_index in range (len(user_skill_card_list)):      # NOT PERMA, placeholder code
         for current_skill_card in user_skill_card_list:
             print(current_skill_card)
-            current_held_skill_cards_list.addItem(current_skill_card)
+            current_held_skill_cards_list.addItem(current_skill_card.card_name)
         hbox.addWidget(current_held_skill_cards_list)
         current_held_skill_cards_list.setStyleSheet("background-color: cyan")
 

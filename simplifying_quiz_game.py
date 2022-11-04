@@ -10,6 +10,7 @@ from asyncio.windows_events import NULL
 # from questions import *
 
 from questions_list import *
+from skill_list_and_methods import *
 
 from dataclasses import dataclass
 import random

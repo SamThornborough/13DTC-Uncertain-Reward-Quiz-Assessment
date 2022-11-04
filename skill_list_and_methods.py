@@ -42,12 +42,12 @@ class Skill_Card:
     # def card_property_id(self):
     #     return self._card_property_id
 
-    def point_buff(current_score, MIN, MAX):
+    def point_buff(self):
         """Point Buff – Adds a random number of Points x30"""
-        new_points = random.randint(MIN, MAX)
-        return current_score + new_points
+        global MIN, MAX, score
+        score = random.randint(MIN, MAX)
 
-    def new_question():
+    def new_question(self):
         """New Question – Resets the Question x 10
         note: Might need some work. These functions are invisible
         unlike my main document. why? maybe ask."""
@@ -61,23 +61,23 @@ class Skill_Card:
         global current_question, current_answer, reset_answer
         current_question, current_answer = reset_answer(current_question, current_answer, new_question_to_display)
 
-        return new_question_to_display, current_displayed_options, current_question, current_answer
-
-    def health_buff(health_points, MIN, MAX):
+    def health_buff(self):
         """Health Buff – Adds an extra health point
         (Normally you die on the first wrong question) x5"""
+        global health_points, MIN, MAX
         health_points += random.randint(MIN, MAX)
-        return health_points
 
-    def special_coin(victory_points):
+    def special_coin(self):
         """Special Coin - Don’t Disappear at the end of
         the game, if you collect a certain number
         of these then you win the game. X10"""
-        return victory_points + 1
+        global victory_points
+        victory_points += 1
 
-    def focus_buff(current_displayed_options):
+    def focus_buff(self):
         """Focus Buff – Can Eliminate one of the wrong options
         from the list of displayed options.x5"""
+        global current_displayed_options
         for selection in current_displayed_options:
             if new_question_to_display.answer != selection:
                 current_displayed_options.remove(selection)
@@ -85,11 +85,11 @@ class Skill_Card:
                 pass
         global reset_displays
         reset_displays()
-        return current_displayed_options
 
-    def secret_gem(score):
+    def secret_gem(self):
         """Hidden Gem Buff – x1 – If gained you win the game on use."""
         print("You have won the game!")
+        global score
         score += 1000
 
 
@@ -98,49 +98,47 @@ full_skill_card_list = []
 def build_game_skill_list(full_skill_card_list):
     for i in range(30):
         full_skill_card_list.append(Skill_Card("Point Buff",
-                                            "Increases the Users point score by"
-                                            " a random amount, warning, "
-                                            "It might cost more to activate the"
-                                            " buff than the points you get back"
+                                               "Increases the Users point score by"
+                                               " a random amount, warning, "
+                                               "It might cost more to activate the"
+                                               " buff than the points you get back"
                                             ))
 
     for i in range(10):
         full_skill_card_list.append(Skill_Card("New Question",
-                                            "New Question – Resets the Question"
-                                            ))
+                                               "New Question – Resets the Question"
+                                               ))
 
     for i in range(10):
         full_skill_card_list.append(Skill_Card("Special Coin",
-                                            "Use this card and it will "
-                                            "increase your victory point score,"
-                                            " which is how you win the game"
-                                            ))
+                                               "Use this card and it will "
+                                               "increase your victory point score,"
+                                               " which is how you win the game"
+                                               ))
 
     for i in range(5):
-        full_skill_card_list.append(Skill_Card("Health +",
-                                            "Use this card and it will "
-                                            "increase your health,"
-                                            " saving you from a sudden death."
-                                            ))
+        full_skill_card_list.append(Skill_Card("Health Buff",
+                                               "Use this card and it will "
+                                               "increase your health,"
+                                               " saving you from a sudden death."
+                                               ))
 
     for i in range(5):
-        full_skill_card_list.append(Skill_Card("Focus +",
-                                            "Use this card and it will "
-                                            "remove an incorrect option,"
-                                            " from the question options."
-                                            ))
+        full_skill_card_list.append(Skill_Card("Focus Buff",
+                                               "Use this card and it will "
+                                               "remove an incorrect option,"
+                                               " from the question options."
+                                               ))
 
-
-    full_skill_card_list.append(Skill_Card("Golden Coin",
-                                        "Use this card and it will "
-                                        "Will win the game for you "
-                                        "with a huge score!"
-                                        ))
+    full_skill_card_list.append(Skill_Card("Secret Gem",
+                                           "Use this card and it will "
+                                           "Will win the game for you "
+                                           "with a huge score!"
+                                           ))
 
     return full_skill_card_list
 
 # print(full_skill_card_list)
-
 
 """
 """

@@ -121,10 +121,17 @@ def new_options(current_displayed_options, new_question_to_display):
     random.shuffle(current_displayed_options)
     return current_displayed_options
 
+
 def reset_answer(current_question, current_answer, new_question_to_display):
     current_question = new_question_to_display.question
     current_answer = new_question_to_display.answer
     return current_question, current_answer
+
+
+def skill_ability_activated(user_skill_card_list, currently_selected_skill):
+    name = currently_selected_skill.card_name
+    name = name.lower().replace(" ", "_")
+    #now I need some code that basically is like currently_selected_skill.name bc name should call the function maybe...?
 
 # Signal Methods ---------------------------------------------------------------------------------------------------------------------------
 
@@ -161,19 +168,28 @@ def player_random_skill_card_clicked():
 
 
 def current_held_skill_cards_list_currentRowChanged(index: int):
-    print(index)
+    # global currently_selected_skill
+    # currently_selected_skill = index
+
+    global currently_selected_skill
+    currently_selected_skill = user_skill_card_list[index]
+    print("This is the currently selected skill card", currently_selected_skill.card_name)
 
 
 def player_options_list_widget_currentRowChanged(index: int):
-    global options_index
-    print("shiiii", options_index)
-    options_index = index
-    print("fuuuu", index)
+    # global options_index
+    # print("shiiii", options_index)
+    # options_index = index
+    # print("fuuuu", index)
     #This runs at the start before any item is selected. Why?
 
     global user_answer
     user_answer = current_displayed_options[index]
     print("GODGODGOD",user_answer)
+
+
+def player_use_skill_button_clicked():
+    skill_ability_activated(user_skill_card_list, currently_selected_skill)
 
 
 @dataclass
@@ -248,7 +264,8 @@ if __name__ == "__main__":
         full_skill_card_list = build_game_skill_list(full_skill_card_list)
 
         user_skill_card_list = []
-        user_skill_card_list.append(full_skill_card_list[random.randint(0, len(full_skill_card_list))-1])
+        for i in range(5):
+            user_skill_card_list.append(full_skill_card_list[random.randint(0, len(full_skill_card_list))-1])
 
         #new_question_to_display = None
         COST_TO_SPIN = 10
@@ -257,8 +274,12 @@ if __name__ == "__main__":
         user_card_hand = []
 
         score = 0
+        victory_points = 0
+        health_points = 1
 
         round_ended = False
+
+        options_index, currently_selected_skill = -1, -1
 
         # I hope that these variables will increase as the difficulty (?) increases
         # as well.
@@ -316,15 +337,31 @@ if __name__ == "__main__":
         left_widget_vbox.addWidget(player_options_list_widget)
         left_widget_vbox.addWidget(player_score_widget)
 
+        #          Left Widget Bottom - Go Button
+
+        player_go_button = QPushButton("GO")
+        left_widget_vbox.addWidget(player_go_button)
+        player_go_button.setStyleSheet("background-color: green;")  # Not Perma
+
         # Middle Widget - Current Held Cards Display ###### NEXT TARGET
+        middle_widget = QWidget()
+        hbox.addWidget(middle_widget)
+        middle_vbox = QVBoxLayout()
+        middle_widget.setLayout(middle_vbox)
 
         current_held_skill_cards_list = QListWidget()
         # for current_index in range (len(user_skill_card_list)):      # NOT PERMA, placeholder code
         for current_skill_card in user_skill_card_list:
             print(current_skill_card)
             current_held_skill_cards_list.addItem(current_skill_card.card_name)
-        hbox.addWidget(current_held_skill_cards_list)
+        middle_vbox.addWidget(current_held_skill_cards_list)
         current_held_skill_cards_list.setStyleSheet("background-color: cyan")
+
+        # Middle Skill Select Button
+
+        player_use_skill_button = QPushButton("USE SKILL")
+        middle_vbox.addWidget(player_use_skill_button)
+        player_use_skill_button.setStyleSheet("background-color: green;")  # Not Perma
 
         # current_held_skill_cards = QListWidget()
         # current_held_skill_cards.addItem("Card 1")
@@ -357,11 +394,11 @@ if __name__ == "__main__":
         right_widget.setLayout(right_widget_vbox_layout)
         right_widget.setStyleSheet("background-color: purple;")  # Not Perma
 
-        #          Right Widget top - Go Button
+        # #          Right Widget top - Go Button
 
-        player_go_button = QPushButton("GO")
-        right_widget_vbox_layout.addWidget(player_go_button)
-        player_go_button.setStyleSheet("background-color: green;")  # Not Perma
+        # player_go_button = QPushButton("GO")
+        # right_widget_vbox_layout.addWidget(player_go_button)
+        # player_go_button.setStyleSheet("background-color: green;")  # Not Perma
 
         #          Right Widget bottom - Rangamble Button
 
@@ -370,6 +407,7 @@ if __name__ == "__main__":
         player_random_skill_card.setStyleSheet("background-color: white")  # Not Perma
 
         player_go_button.clicked.connect(player_go_button_clicked)
+        player_use_skill_button.clicked.connect(player_use_skill_button_clicked)
 
         player_random_skill_card.clicked.connect(player_random_skill_card_clicked)
 

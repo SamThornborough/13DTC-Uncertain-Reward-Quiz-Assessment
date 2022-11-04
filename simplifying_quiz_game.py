@@ -131,7 +131,17 @@ def player_go_button_clicked():
 
 
 def player_random_skill_card_clicked():
-    print("ALSO TRUE")
+    # check if user score can lose 10 points:
+        # if yes, take 10 points
+        # randomly select an item from the
+        # master skill card list
+        # global player skill card
+        # append it to player skill card
+        # reset display and skill display (need to make this just copy n paste the
+        # options reset code ykyk)
+        # aler user which skill card they got
+    # else,
+        # alert the user("you cant afford this yet! Need more score")
 
 
 def current_held_skill_cards_list_currentRowChanged(index: int):
@@ -179,24 +189,24 @@ class Questions:
     #     return self._reward
 
 
-@dataclass
-class Skill_Card:
-    _card_name: str
-    _card_definition: str
-    _card_property_id: int
+# @dataclass
+# class Skill_Card:
+#     _card_name: str
+#     _card_definition: str
+#     _card_property_id: int
 
-    @property
-    def card_name(self):
-        return self._card_name
+#     @property
+#     def card_name(self):
+#         return self._card_name
 
-    @property
-    def card_definition(self):
+#     @property
+#     def card_definition(self):
 
-        return self._card_definition
+#         return self._card_definition
 
-    @property
-    def card_property_id(self):
-        return self._card_property_id
+#     @property
+#     def card_property_id(self):
+#         return self._card_property_id
 
 
 if __name__ == "__main__":
@@ -214,13 +224,14 @@ if __name__ == "__main__":
 
     # question_list = [Questions("Que?", "Que a quires?", ["no", "si"], 1, 10),
     #                 Questions("Quires un ingles hombre?", "Que a mierda?", ["pp", "pupu"], 2, 10),
-    #                 Questions("Tu madre esta un vaca", "Mi madre estaba un santina!", ["dog", "wow"], 3, 10)]
-
-    skill_cards_available_list = [Skill_Card("Hermit Purple!", "Stops time!", 1),
-                                Skill_Card("Star PLatinum!", "OHMAGAAHHHD", 2)]
+    #                 Questions("Tu madre esta un vaca", "Mi madre estaba un santina!", ["dog", "wow"], 3, 10)] 
 
     while game_running == True:
-        user_skill_card_list = ["Hermit Purple!", "Star Platinum!", "Pomu"]
+
+        full_skill_card_list = []
+        full_skill_card_list = build_game_skill_list()
+
+        user_skill_card_list = []
 
         #new_question_to_display = None
 

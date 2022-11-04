@@ -27,7 +27,7 @@ from _collections_abc import Callable
 class Skill_Card:
     _card_name: str
     _card_definition: str
-    _card_property_id: int
+    #_card_property_id: int
 
     @property
     def card_name(self):
@@ -38,9 +38,9 @@ class Skill_Card:
 
         return self._card_definition
 
-    @property
-    def card_property_id(self):
-        return self._card_property_id
+    # @property
+    # def card_property_id(self):
+    #     return self._card_property_id
 
     def point_buff(current_score, MIN, MAX):
         """Point Buff – Adds a random number of Points x30"""
@@ -92,6 +92,54 @@ class Skill_Card:
         print("You have won the game!")
         score += 1000
 
+
+full_skill_card_list = []
+
+def build_game_skill_list(full_skill_card_list)""
+    for i in range(30):
+        full_skill_card_list.append(Skill_Card("Point Buff",
+                                            "Increases the Users point score by"
+                                            " a random amount, warning, "
+                                            "It might cost more to activate the"
+                                            " buff than the points you get back"
+                                            ))
+
+    for i in range(10):
+        full_skill_card_list.append(Skill_Card("New Question",
+                                            "New Question – Resets the Question"
+                                            ))
+
+    for i in range(10):
+        full_skill_card_list.append(Skill_Card("Special Coin",
+                                            "Use this card and it will "
+                                            "increase your victory point score,"
+                                            " which is how you win the game"
+                                            ))
+
+    for i in range(5):
+        full_skill_card_list.append(Skill_Card("Health +",
+                                            "Use this card and it will "
+                                            "increase your health,"
+                                            " saving you from a sudden death."
+                                            ))
+
+    for i in range(5):
+        full_skill_card_list.append(Skill_Card("Focus +",
+                                            "Use this card and it will "
+                                            "remove an incorrect option,"
+                                            " from the question options."
+                                            ))
+
+
+    full_skill_card_list.append(Skill_Card("Golden Coin",
+                                        "Use this card and it will "
+                                        "Will win the game for you "
+                                        "with a huge score!"
+                                        ))
+
+    return full_skill_card_list
+
+print(full_skill_card_list)
 
 
 """

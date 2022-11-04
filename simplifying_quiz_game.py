@@ -9,6 +9,8 @@ from ast import Delete
 from asyncio.windows_events import NULL
 # from questions import *
 
+from questions_list import *
+
 from dataclasses import dataclass
 import random
 from re import S
@@ -167,13 +169,13 @@ class Questions:
     def options(self) -> list:
         return self._options
 
-    @property
-    def difficulty(self) -> str:
-        return self._difficulty
+    # @property
+    # def difficulty(self) -> str:
+    #     return self._difficulty
 
-    @property
-    def reward(self) -> int:
-        return self._reward
+    # @property
+    # def reward(self) -> int:
+    #     return self._reward
 
 
 @dataclass
@@ -209,9 +211,9 @@ if __name__ == "__main__":
 
     # ---------------------------------------------------------------------------------------------------------------------------'
 
-    question_list = [Questions("Que?", "Que a quires?", ["no", "si"], 1, 10),
-                    Questions("Quires un ingles hombre?", "Que a mierda?", ["pp", "pupu"], 2, 10),
-                    Questions("Tu madre esta un vaca", "Mi madre estaba un santina!", ["dog", "wow"], 3, 10)]
+    # question_list = [Questions("Que?", "Que a quires?", ["no", "si"], 1, 10),
+    #                 Questions("Quires un ingles hombre?", "Que a mierda?", ["pp", "pupu"], 2, 10),
+    #                 Questions("Tu madre esta un vaca", "Mi madre estaba un santina!", ["dog", "wow"], 3, 10)]
 
     skill_cards_available_list = [Skill_Card("Hermit Purple!", "Stops time!", 1),
                                 Skill_Card("Star PLatinum!", "OHMAGAAHHHD", 2)]
@@ -338,21 +340,6 @@ if __name__ == "__main__":
         right_widget_vbox_layout.addWidget(player_random_skill_card)
         player_random_skill_card.setStyleSheet("background-color: white")  # Not Perma
 
-
-
-        """OK NEW PLAN NOW.
-        SO THE CODE WORKS, IT CAN FIND THE CORRECT ANSWER IN THE QUESTIONS.
-        HOWEVER, WE ALSO FOUND THAT IT DOESN'T RESET THE QUESTION, BUT NOT JUST THAT
-        I REALISED THAT IT WON'T FIND THE QUESTION SPINNER. I NEED TO CREATE A FUNCTION THAT
-        CLEARS EVERYTHING AND RESETS ALL THE GUI. NEED TO PLAN HOW TO DO THIS.
-        PLAN A: USE THE ROUND NUMBER VARIABLE, WHENEVER THAT CHANGES A FUNCTION OR LOOP RUNS THROUGH THE STUFF,
-        RESETTING EVERYTHING.
-        PLAN B: JUST PUT ALL OF MY GUI STUFF INTO A FUNCTION THAT RUNS EVERY TIME I CALL IT
-        (COULD PUT THIS INTO A NEW DOCUMENT TOO FOR CLEANLINESS). JUST NEED IT CALLED AT THE START.
-
-        IN RETROSPECT I FEEL LIKE PLAN A IS MORE COMPLICATED. PLAN B IS SIMPLER I FEEL. LETS TRY IT."""
-
-
         player_go_button.clicked.connect(player_go_button_clicked)
 
         player_random_skill_card.clicked.connect(player_random_skill_card_clicked)
@@ -364,31 +351,3 @@ if __name__ == "__main__":
 
         main_window.show()
         app.exec()
-
-"""OKAY SO NOW 1/11/22 NEW PROBLEM
-THE CODE DOESN'T CLOSE ITSELF BUT THE MAIN LOOP DOES STOP
-WHEN THE QUESTION IS WRONG
-NOW
-NEW PROBLEM
-THE QUESTIONS ARE CHANGING, AS ARE THE POINTS, BUT
-THE LISTS ARE NOT.
-PLAN A ON FICXING THIS:
-LOOK AT THE RESET_DISPLAYS
-LIST, THIS MUST BE THE ISSUE
-PLAN B - ALSO
-MAKE THE CODE PRINT OUT THE NEW DISPLAY OPTIONS
-IT SHOULD TELL US THE NEW OPTIONS
-SO THEN OLIVIA YOU CAN SEE IF IT IS VAR OR FUNC ISSUE
-
-PLAN C - ASK S/E"""
-
-"""NEW PROBLEM
-OK SO FIXED IT NOW OLI NEW PROBLEM THO
-THE CODE RESETS BUT NOW SEE'S EVERYTHING WRONG ON Q2
-WHY IS THAT?
-IM NOT SURE
-I THINK IT MIGHT BE A VARIABLE ERROR
-LIKE SOMEWHERE IN MY CODE SOMETHING ISN'T RESETTING
-SO I JUST NEEDA FIND IT YKYK
-BUT IDK
-FOR NOW LETS SEE."""

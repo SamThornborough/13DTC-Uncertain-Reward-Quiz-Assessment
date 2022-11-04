@@ -37,7 +37,11 @@ Difficulty Levels
 
 def question_check(round, local_current_answer,
                    user_answer, reset_displays: "function"):
+    print("the local current answer: ",local_current_answer)
     if user_answer == local_current_answer:
+        #global user_answer
+        user_answer = ""
+        print("Mary Had a little lamg", user_answer)
         global score
         score += random.randint(score_minimum, score_maximum)
         print(f"Your new score is {score}.")
@@ -46,6 +50,8 @@ def question_check(round, local_current_answer,
         print("AFTER",new_question_to_display)
         global current_displayed_options
         current_displayed_options = new_options(current_displayed_options, new_question_to_display)
+        global current_question, current_answer
+        current_question, current_answer = reset_answer(current_question, current_answer, new_question_to_display)
 
         global current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label
         #current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label = 
@@ -93,6 +99,11 @@ def new_options(current_displayed_options, new_question_to_display):
     random.shuffle(current_displayed_options)
     return current_displayed_options
 
+def reset_answer(current_question, current_answer, new_question_to_display):
+    current_question = new_question_to_display.question
+    current_answer = new_question_to_display.answer
+    return current_question, current_answer
+
 # Signal Methods ---------------------------------------------------------------------------------------------------------------------------
 
 
@@ -112,6 +123,7 @@ def player_go_button_clicked():
     if options_index == -1:
         print("Please select an option.")
     else:
+        global user_answer
         question_check(round, current_answer, user_answer, reset_displays)
 
 
@@ -132,7 +144,7 @@ def player_options_list_widget_currentRowChanged(index: int):
 
     global user_answer
     user_answer = current_displayed_options[index]
-    print(user_answer)
+    print("GODGODGOD",user_answer)
 
 
 @dataclass

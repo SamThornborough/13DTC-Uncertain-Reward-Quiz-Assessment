@@ -130,8 +130,29 @@ def reset_answer(current_question, current_answer, new_question_to_display):
 
 def skill_ability_activated(user_skill_card_list, currently_selected_skill):
     name = currently_selected_skill.card_name
-    name = name.lower().replace(" ", "_")
+    method_name = name.lower().replace(" ", "_")
     #now I need some code that basically is like currently_selected_skill.name bc name should call the function maybe...?
+    if method_name == "point_buff":
+        global current_score
+        current_score = currently_selected_skill.point_buff(score, score_minimum, score_maximum)
+    if method_name == "new_question":
+        global new_question_to_display, current_displayed_options, current_question, current_answer
+        new_question_to_display, current_displayed_options, current_question, current_answer = currently_selected_skill.new_question()
+    if method_name == "health_buff":
+        global health_points
+        health_points = currently_selected_skill.health_buff(health_points, score_minimum, score_maximum)
+    if method_name == "special_coin":
+        global victory_points
+        victory_points = currently_selected_skill.special_coin(victory_points)
+    if method_name == "focus_buff":
+        global current_displayed_options
+        current_displayed_options = current_displayed_options.focus_buff(current_displayed_options)
+    if method_name == "secret_gem":
+        game_is_won()
+
+def game_is_won():
+    """This will run when the game is won. Ends the game, displays final score, victory points, and cards."""
+    print("You have mail")
 
 # Signal Methods ---------------------------------------------------------------------------------------------------------------------------
 
@@ -181,11 +202,12 @@ def current_held_skill_cards_list_currentRowChanged(index: int):
 
 
 def player_options_list_widget_currentRowChanged(index: int):
-    # global options_index
-    # print("shiiii", options_index)
-    # options_index = index
+    global options_index
+    print("shiiii", options_index)
+    options_index = index
     # print("fuuuu", index)
-    #This runs at the start before any item is selected. Why?
+    # This runs at the start before any item is selected. Why?
+    # This variable exists for checking a user did select a question.
 
     global user_answer
     user_answer = current_displayed_options[index]

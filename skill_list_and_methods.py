@@ -223,6 +223,7 @@ class Skill_Card:
     def point_buff(self, current_score, MIN, MAX):
         """Point Buff – Adds a random number of Points x30"""
         new_points = random.randint(MIN, MAX)
+        print(current_score," + ", new_points," = ",current_score+ new_points)
         return current_score + new_points
 
     def new_question(self):
@@ -253,7 +254,7 @@ class Skill_Card:
         of these then you win the game. X10"""
         return victory_points + 1
 
-    def focus_buff(self, current_displayed_options):
+    def focus_buff(self, current_displayed_options, new_question_to_display):
         """Focus Buff – Can Eliminate one of the wrong options
         from the list of displayed options.x5"""
         for selection in current_displayed_options:

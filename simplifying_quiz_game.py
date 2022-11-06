@@ -53,10 +53,12 @@ def question_check(round, local_current_answer,
         print("AFTER",new_question_to_display)
         global current_displayed_options
         current_displayed_options = new_options(current_displayed_options, new_question_to_display)
+        # global current_held_skill_cards_list, user_skill_card_list
+        # current_held_skill_cards_list = new_skills(current_held_skill_cards_list, user_skill_card_list)
         global current_question, current_answer
         current_question, current_answer = reset_answer(current_question, current_answer, new_question_to_display)
 
-        global current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label
+        global player_options_list_widget, player_score_widget, question_label
         #current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label = 
         reset_displays()
                                                                                                         # current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label)
@@ -101,12 +103,14 @@ def gamble_for_new_card(score, COST_TO_SPIN, user_skill_card_list, full_skill_ca
             return score, COST_TO_SPIN, user_skill_card_list, full_skill_card_list
 
 def reset_displays():
+    global current_held_skill_cards_list
     current_held_skill_cards_list.clear()
     for skill_card in user_skill_card_list:
         current_held_skill_cards_list.addItem(skill_card.card_name)
     player_options_list_widget.clear()
     for option in current_displayed_options:
         player_options_list_widget.addItem(option)
+    current_held_skill_cards_list = new_skills(current_held_skill_cards_list, user_skill_card_list)
     player_score_widget.setText(str(score))
     question_label.setText(new_question_to_display.question)
     print("The following is the new values.", skill_card, current_displayed_options, score, new_question_to_display)
@@ -122,33 +126,55 @@ def new_options(current_displayed_options, new_question_to_display):
     return current_displayed_options
 
 
+def new_skills(current_held_skill_cards_list, user_skill_card_list):
+    #THIS NEEDS WORK
+    """THE PROBLEM IS THAT THE CURRENT_HELD_SKILL_CARDSS LSIT IS A QLISTWIDGET
+    SO APPENDING IT IS BREAKING IT."""
+    #random.shuffle(user_skill_card_list)
+    current_held_skill_cards_list.clear()
+    for skill_card in user_skill_card_list:
+        current_held_skill_cards_list.addItem(skill_card.card_name)
+    return current_held_skill_cards_list
+
+
 def reset_answer(current_question, current_answer, new_question_to_display):
     current_question = new_question_to_display.question
     current_answer = new_question_to_display.answer
     return current_question, current_answer
 
 
-def skill_ability_activated(user_skill_card_list, currently_selected_skill):
+def skill_ability_activated(currently_selected_skill):
     name = currently_selected_skill.card_name
     method_name = name.lower().replace(" ", "_")
+    global current_displayed_options, new_question_to_display, user_skill_card_list
     #now I need some code that basically is like currently_selected_skill.name bc name should call the function maybe...?
     if method_name == "point_buff":
+        print(method_name," is activated.")
         global current_score
         current_score = currently_selected_skill.point_buff(score, score_minimum, score_maximum)
-    if method_name == "new_question":
-        global new_question_to_display, current_displayed_options, current_question, current_answer
+    elif method_name == "new_question":
+        print(method_name," is activated.")
+        global new_question_to_display, current_question, current_answer
         new_question_to_display, current_displayed_options, current_question, current_answer = currently_selected_skill.new_question()
-    if method_name == "health_buff":
+    elif method_name == "health_buff":
+        print(method_name," is activated.")
         global health_points
         health_points = currently_selected_skill.health_buff(health_points, score_minimum, score_maximum)
-    if method_name == "special_coin":
+    elif method_name == "special_coin":
+        print(method_name," is activated.")
         global victory_points
         victory_points = currently_selected_skill.special_coin(victory_points)
-    if method_name == "focus_buff":
-        global current_displayed_options
-        current_displayed_options = current_displayed_options.focus_buff(current_displayed_options)
-    if method_name == "secret_gem":
+    elif method_name == "focus_buff":
+        print(method_name," is activated.")
+        current_displayed_options = currently_selected_skill.focus_buff(current_displayed_options, new_question_to_display)
+    elif method_name == "secret_gem":
+        print(method_name," is activated.")
         game_is_won()
+    del user_skill_card_list[skill_index]
+    """OKAY SO. PROBLEM: GOTTA DELETE THE USED SKILLS AFTER DONE.
+    SOLUTION: DEL. PROBLEM 2:
+    DEL NO WORK GOTTA FIGURE OUT HOW TO MAKE IT WORK.
+    ALSO. TEST THESE METHODS TO SEE IF THEY'RE WORKING OR NOT. 6/11/22"""
 
 def game_is_won():
     """This will run when the game is won. Ends the game, displays final score, victory points, and cards."""
@@ -183,8 +209,11 @@ def player_go_button_clicked():
 
 def player_random_skill_card_clicked():
     global score, COST_TO_SPIN, user_skill_card_list, full_skill_card_list
+    print("I DO NOT HAVE A FAVOURITE VTUBER",user_skill_card_list)
     score, COST_TO_SPIN, user_skill_card_list, full_skill_card_list = gamble_for_new_card(score, COST_TO_SPIN, user_skill_card_list, full_skill_card_list)
+    print("I DO NOW",user_skill_card_list)
 
+    reset_displays()
     """OKAY OLI
     SO THE PROBLEM ATM WITH THIS IS THAT IT RETURNS A NONETYPE OBJECT FOR SOME REASON
     BUT IDRK WHAT TAHT MEANS OR WHAT I DID WRONG
@@ -215,7 +244,8 @@ def player_options_list_widget_currentRowChanged(index: int):
 
 
 def player_use_skill_button_clicked():
-    skill_ability_activated(user_skill_card_list, currently_selected_skill)
+    skill_ability_activated(currently_selected_skill)
+    reset_displays()
 
 
 @dataclass
@@ -376,11 +406,11 @@ if __name__ == "__main__":
         middle_widget.setLayout(middle_vbox)
 
         current_held_skill_cards_list = QListWidget()
+        middle_vbox.addWidget(current_held_skill_cards_list)
         # for current_index in range (len(user_skill_card_list)):      # NOT PERMA, placeholder code
         for current_skill_card in user_skill_card_list:
             print(current_skill_card)
             current_held_skill_cards_list.addItem(current_skill_card.card_name)
-        middle_vbox.addWidget(current_held_skill_cards_list)
         current_held_skill_cards_list.setStyleSheet("background-color: cyan")
 
         # Middle Skill Select Button

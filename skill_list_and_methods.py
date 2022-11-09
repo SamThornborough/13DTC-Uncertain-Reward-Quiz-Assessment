@@ -245,7 +245,8 @@ class Skill_Card:
     def health_buff(self, health_points, MIN, MAX):
         """Health Buff – Adds an extra health point
         (Normally you die on the first wrong question) x5"""
-        health_points += random.randint(MIN, MAX)
+        #health_points += random.randint(MIN, MAX)
+        health_points = 2
         return health_points
 
     def special_coin(self, victory_points):

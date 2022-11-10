@@ -114,8 +114,8 @@ def reset_displays():
     for option in current_displayed_options:
         player_options_list_widget.addItem(option)
     current_held_skill_cards_list = new_skills(current_held_skill_cards_list, user_skill_card_list)
-    player_score_widget.setText(str(score))
-    player_health_widget.setText(str(health_points))
+    player_score_widget.setText("Score: " + str(score))
+    player_health_widget.setText("Health: " + str(health_points))
     question_label.setText(new_question_to_display.question)
     #print("The following is the new values.", skill_card, current_displayed_options, score, new_question_to_display)
     print("reset display was completed successfully.")

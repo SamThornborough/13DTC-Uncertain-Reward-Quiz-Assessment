@@ -75,7 +75,7 @@ def question_check(round, local_current_answer,
         health_points -= 1
         if health_points == 0:
             print("You have lost the games")
-            app.exit()  #(app.exit())
+            app.exit(app.exec())  #(app.exit())
 
 
 

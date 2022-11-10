@@ -232,7 +232,7 @@ class Skill_Card:
         unlike my main document. why? maybe ask."""
         user_answer = ""
         print("Super Power Activated: ", user_answer)
-        global new_question_to_display, question_selection
+        global new_question_to_display,  question_selection
         new_question_to_display = question_selection(question_list)
         print("AFTER", new_question_to_display)
         global current_displayed_options, new_options
@@ -263,8 +263,6 @@ class Skill_Card:
                 current_displayed_options.remove(selection)
             else:
                 pass
-        global reset_displays
-        reset_displays()
         return current_displayed_options
 
     def secret_gem(self, score):

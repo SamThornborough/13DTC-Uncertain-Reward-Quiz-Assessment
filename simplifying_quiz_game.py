@@ -117,7 +117,7 @@ def reset_displays():
     player_score_widget.setText(str(score))
     player_health_widget.setText(str(health_points))
     question_label.setText(new_question_to_display.question)
-    print("The following is the new values.", skill_card, current_displayed_options, score, new_question_to_display)
+    #print("The following is the new values.", skill_card, current_displayed_options, score, new_question_to_display)
     print("reset display was completed successfully.")
     #return current_held_skill_cards_list, player_options_list_widget, player_score_widget, question_label
 
@@ -154,8 +154,9 @@ def skill_ability_activated(currently_selected_skill):
     #now I need some code that basically is like currently_selected_skill.name bc name should call the function maybe...?
     if method_name == "point_buff":
         print(method_name," is activated.")
-        global current_score
-        current_score = currently_selected_skill.point_buff(score, score_minimum, score_maximum)
+        global score
+        score = currently_selected_skill.point_buff(score, score_minimum, score_maximum)
+        reset_displays()
     elif method_name == "new_question":
         print(method_name," is activated.")
         global new_question_to_display, current_question, current_answer
@@ -171,6 +172,7 @@ def skill_ability_activated(currently_selected_skill):
     elif method_name == "focus_buff":
         print(method_name," is activated.")
         current_displayed_options = currently_selected_skill.focus_buff(current_displayed_options, new_question_to_display)
+        reset_displays()
     elif method_name == "secret_gem":
         print(method_name," is activated.")
         game_is_won()

@@ -76,6 +76,11 @@ def question_check(round, local_current_answer,
         if health_points == 0:
             print("You have lost the games")
             app.exit(app.exec())  #(app.exit())
+        else:
+            lost_health_buff_msg_box = QMessageBox()
+            lost_health_buff_msg_box.setText("Warning: Your health has now dropped to 1 point, "
+                                     "after getting a question wrong.")
+            lost_health_buff_msg_box.exec()
 
 
 
@@ -175,16 +180,22 @@ def skill_ability_activated(currently_selected_skill):
         reset_displays()
     elif method_name == "secret_gem":
         print(method_name," is activated.")
-        game_is_won()
+        score = currently_selected_skill.secret_gem(score)
+        game_is_won(score)
     del user_skill_card_list[skill_index]
     """OKAY SO. PROBLEM: GOTTA DELETE THE USED SKILLS AFTER DONE.
     SOLUTION: DEL. PROBLEM 2:
     DEL NO WORK GOTTA FIGURE OUT HOW TO MAKE IT WORK.
     ALSO. TEST THESE METHODS TO SEE IF THEY'RE WORKING OR NOT. 6/11/22"""
 
-def game_is_won():
+def game_is_won(score):
     """This will run when the game is won. Ends the game, displays final score, victory points, and cards."""
     print("You have mail")
+    app.exit(app.exec())
+    victory_msg_box = QMessageBox()
+    victory_msg_box.setText(f"You have won the game! Your score was: {score}."
+                            "Thank you for playing!")
+    victory_msg_box.exec()
 
 # Signal Methods ---------------------------------------------------------------------------------------------------------------------------
 

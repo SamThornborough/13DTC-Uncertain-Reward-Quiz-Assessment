@@ -341,7 +341,7 @@ if __name__ == "__main__":
     right_widget_vbox_layout = QVBoxLayout()
     right_widget.setLayout(right_widget_vbox_layout)
 
-    #          Right Widget bottom - Rangamble Button
+    # Right Widget bottom - Rangamble Button
 
     player_random_skill_card = QPushButton("SPIN FOR SKILL CARDS")
     right_widget_vbox_layout.addWidget(player_random_skill_card)

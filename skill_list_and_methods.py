@@ -22,6 +22,9 @@ from pytest import Item
 
 from _collections_abc import Callable
 
+def question_selection(local_question_list):
+    """Selects a random question, then returns it"""
+    return local_question_list[random.randint(0, len(local_question_list))-1]
 
 @dataclass
 class Skill_Card:

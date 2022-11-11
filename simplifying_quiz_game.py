@@ -25,7 +25,10 @@ from pytest import Item
 
 def question_check(round, local_current_answer,
                    user_answer, reset_displays: "function"):
-    print("the local current answer: ",local_current_answer)
+    """Checks if the answer the user selected is right or not.
+    If yes, it will add points,then reset the displays. If not,
+    then it will check if the user has no health buff active,
+    then end the game."""
     if user_answer == local_current_answer:
         user_answer = ""
         global score, new_question_to_display, current_displayed_options, current_question, current_answer, player_options_list_widget, player_score_widget, question_label, player_health_widget, health_points
@@ -40,11 +43,11 @@ def question_check(round, local_current_answer,
     else:
         health_points -= 1
         if health_points == 0:
-            app.exit(app.exec())
             lost_game_msg_box = QMessageBox()
             lost_game_msg_box.setText("You got a question wrong. Sorry, you lost the game."
                                       " Better luck next time!")
             lost_game_msg_box.exec()
+            app.exit(app.exec())
         else:
             lost_health_buff_msg_box = QMessageBox()
             lost_health_buff_msg_box.setText("Warning: Your health has now dropped to 1 point, "
@@ -54,21 +57,26 @@ def question_check(round, local_current_answer,
 
 
 def question_selection(local_question_list):
+    """Selects a random question, then returns it"""
     return local_question_list[random.randint(0, len(local_question_list))-1]
 
+
 def gamble_for_new_card(score, COST_TO_SPIN, user_skill_card_list, full_skill_card_list):
-        if score - COST_TO_SPIN <= 0:
-            cant_afford_msg_box = QMessageBox()
-            cant_afford_msg_box.setText("ALERT HERE WARNING CANT AFFORD")
-            cant_afford_msg_box.exec()
-            return score, COST_TO_SPIN, user_skill_card_list, full_skill_card_list
-        else:
-            score -= COST_TO_SPIN
-            user_skill_card_list.append(full_skill_card_list[random.randint(0, len(full_skill_card_list))-1])
-            return score, COST_TO_SPIN, user_skill_card_list, full_skill_card_list
+    """Will select a random card from a list of 61 cards,
+    and add it to the user's list."""
+    if score - COST_TO_SPIN <= 0:
+        cant_afford_msg_box = QMessageBox()
+        cant_afford_msg_box.setText("ALERT HERE WARNING CANT AFFORD")
+        cant_afford_msg_box.exec()
+        return score, COST_TO_SPIN, user_skill_card_list, full_skill_card_list
+    else:
+        score -= COST_TO_SPIN
+        user_skill_card_list.append(full_skill_card_list[random.randint(0, len(full_skill_card_list))-1])
+        return score, COST_TO_SPIN, user_skill_card_list, full_skill_card_list
 
 
 def reset_displays():
+    """Updates the GUI's with the new information"""
     global current_held_skill_cards_list
     current_held_skill_cards_list.clear()
     for skill_card in user_skill_card_list:
@@ -83,6 +91,7 @@ def reset_displays():
 
 
 def new_options(current_displayed_options, new_question_to_display):
+    """Selects the new options to display for the current question."""
     current_displayed_options = [new_question_to_display.answer]
     current_displayed_options += new_question_to_display.options
     random.shuffle(current_displayed_options)
@@ -90,6 +99,7 @@ def new_options(current_displayed_options, new_question_to_display):
 
 
 def new_skills(current_held_skill_cards_list, user_skill_card_list):
+    """Updates the skill list widget with the current skills"""
     current_held_skill_cards_list.clear()
     for skill_card in user_skill_card_list:
         current_held_skill_cards_list.addItem(skill_card.card_name)
@@ -97,12 +107,14 @@ def new_skills(current_held_skill_cards_list, user_skill_card_list):
 
 
 def reset_answer(current_question, current_answer, new_question_to_display):
+    """Resets the current answer with the question."""
     current_question = new_question_to_display.question
     current_answer = new_question_to_display.answer
     return current_question, current_answer
 
 
 def skill_ability_activated(currently_selected_skill):
+    """Run a selected skill card function, triggered by the user"""
     name = currently_selected_skill.card_name
     method_name = name.lower().replace(" ", "_")
     global current_displayed_options, new_question_to_display, user_skill_card_list
@@ -123,6 +135,8 @@ def skill_ability_activated(currently_selected_skill):
         print(method_name," is activated.")
         global victory_points
         victory_points = currently_selected_skill.special_coin(victory_points)
+        if victory_points == 10:
+            game_is_won(score)
     elif method_name == "focus_buff":
         print(method_name," is activated.")
         current_displayed_options = currently_selected_skill.focus_buff(current_displayed_options, new_question_to_display)
@@ -136,11 +150,11 @@ def skill_ability_activated(currently_selected_skill):
 
 def game_is_won(score):
     """This will run when the game is won. Ends the game, displays final score, victory points, and cards."""
-    app.exit(app.exec())
     victory_msg_box = QMessageBox()
     victory_msg_box.setText(f"You have won the game! Your score was: {score}."
                             "Thank you for playing!")
     victory_msg_box.exec()
+    app.exit(app.exec())
 
 # Signal Methods -----------
 
@@ -160,6 +174,7 @@ def player_go_button_clicked():
 
 
 def player_random_skill_card_clicked():
+    """Triggers when the button random skill card is pressed."""
     global score, COST_TO_SPIN, user_skill_card_list, full_skill_card_list
     score, COST_TO_SPIN, user_skill_card_list, full_skill_card_list = gamble_for_new_card(score, COST_TO_SPIN, user_skill_card_list, full_skill_card_list)
 
@@ -167,6 +182,7 @@ def player_random_skill_card_clicked():
 
 
 def current_held_skill_cards_list_currentRowChanged(index: int):
+    """Outputs the index of the currently selected skill card."""
     global skill_index, currently_selected_skill
     skill_index = index
     currently_selected_skill = user_skill_card_list[index]
@@ -174,14 +190,19 @@ def current_held_skill_cards_list_currentRowChanged(index: int):
 
 
 def player_options_list_widget_currentRowChanged(index: int):
+    """Outputs the index of the currently selected option."""
     global options_index, user_answer
     options_index = index
     user_answer = current_displayed_options[index]
 
 
 def player_use_skill_button_clicked():
+    """Activates the function that runs a bunch of code
+    when the user presses this button."""
     skill_ability_activated(currently_selected_skill)
     reset_displays()
+
+# Classes  ------
 
 
 @dataclass
@@ -204,6 +225,7 @@ class Questions:
     def options(self) -> list:
         return self._options
 
+# Main Loop --------
 
 
 if __name__ == "__main__":
@@ -239,7 +261,7 @@ if __name__ == "__main__":
     score_minimum = 0
     score_maximum = 10
 
-    # GAME LOOP =========================
+    # Widgets -----------------------
     msgBox = QMessageBox()
     msgBox.setText("The game is now running.")
     msgBox.exec()
@@ -256,7 +278,7 @@ if __name__ == "__main__":
     vbox = QVBoxLayout()
     main_widget.setLayout(vbox)
 
-    # Top Widget - Question Widget ###############THIS FIRST
+    # Top Widget
 
     options_index = -1
     question_label = QLabel(new_question_to_display.question)

@@ -64,7 +64,7 @@ def question_selection(local_question_list):
 def gamble_for_new_card(score, COST_TO_SPIN, user_skill_card_list, full_skill_card_list):
     """Will select a random card from a list of 61 cards,
     and add it to the user's list."""
-    if score - COST_TO_SPIN <= 0:
+    if score - COST_TO_SPIN <= -1:
         cant_afford_msg_box = QMessageBox()
         cant_afford_msg_box.setText("ALERT HERE WARNING CANT AFFORD")
         cant_afford_msg_box.exec()
@@ -357,4 +357,27 @@ if __name__ == "__main__":
         player_options_list_widget_currentRowChanged)
 
     main_window.show()
+
+    tutorial_msg_box = QMessageBox()
+    tutorial_msg_box.setText("Hello, and welcome to my game, "
+                             "I call Quiz Game. (Imaginative, I know)\n"
+                             "This game is about answering "
+                             "the question (top) using "
+                             "the options in the box (left)\n "
+                             "to earn scorepoints. Using score,"
+                             " you can spend 10 points on spinning"
+                             " for a new skill (right).\n"
+                             "\nThis card will have a random,"
+                             " self-explanatory purpose,"
+                             " which you can use whenever. The aim "
+                             "of the game is to win by collecting either:"
+                             "Victory points through secret coins, or winning"
+                             " the game with the rare secret gem card.\n\n"
+                             "Be Warned that you only have one healthpoint,"
+                             "and the health buffs only bring"
+                             " it to two. If you get even one"
+                             "question wrong, you can lose the "
+                             "whole game. Good luck.")
+    tutorial_msg_box.exec()
+
     app.exec()
